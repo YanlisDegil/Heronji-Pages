@@ -1,16 +1,18 @@
-<!DOCTYPE html>
+import zipfile
+
+html_code = """<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HERONJI.FX | Komuta Merkezi</title>
+    <title>HERONJI TOPLULUĞU | Komuta Merkezi</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-obsidian: #07080a;
-            --surface-glass: rgba(16, 18, 23, 0.72);
+            --surface-glass: rgba(16, 18, 23, 0.75);
             --border-subtle: rgba(255, 255, 255, 0.08);
             --text-primary: #f4f4f6;
             --text-secondary: #9ca3af;
@@ -50,7 +52,7 @@
             pointer-events: auto;
         }
 
-        /* Minimalist & Mimari Üst Navigasyon */
+        /* Üst Navigasyon */
         nav {
             position: fixed;
             top: 24px;
@@ -116,7 +118,7 @@
             pointer-events: none;
         }
 
-        /* Bölüm 1: Ana Stüdyo Masası */
+        /* Bölüm 1: Gerçek Oda ve Masanızın Olduğu Hero Sahnesi */
         .section-hero {
             height: 150vh;
             display: flex;
@@ -151,7 +153,6 @@
             line-height: 1.65;
             margin-bottom: 24px;
             padding: 0 20px;
-            font-weight: 400;
         }
 
         .scroll-cue {
@@ -172,7 +173,7 @@
             50% { transform: translateY(6px); opacity: 0.85; }
         }
 
-        /* Bölüm 2: 5'li Oval Masa & Monitör Dizilimi */
+        /* Bölüm 2: 5'li Oval Masa & Proje Terminalleri */
         .section-projects {
             height: 230vh;
             position: relative;
@@ -272,12 +273,11 @@
             align-items: center;
         }
 
-        /* Yatay Geniş Ekran (Widescreen 21:9 hissi veren) Çerçeve */
         .widescreen-console {
             max-width: 1360px;
             width: 100%;
             display: grid;
-            grid-template-columns: 1.35fr 1fr; /* Sol taraf geniş yatay panel, sağ taraf kontrol paneli */
+            grid-template-columns: 1.35fr 1fr;
             gap: 24px;
             align-items: stretch;
         }
@@ -297,7 +297,6 @@
             overflow: hidden;
         }
 
-        /* Üst monitör çerçevesi hissi veren ince üst bar */
         .panel-topbar {
             display: flex;
             justify-content: space-between;
@@ -323,7 +322,6 @@
             background: rgba(255, 255, 255, 0.14);
         }
 
-        /* Sol Panel: Hakkımda (Yatay Düzen) */
         .about-header {
             display: flex;
             justify-content: space-between;
@@ -439,7 +437,6 @@
             color: #ffffff;
         }
 
-        /* Sağ Panel: Kontrol Merkezi & Sistem Modülleri */
         .control-grid {
             display: flex;
             flex-direction: column;
@@ -551,7 +548,7 @@
             opacity: 0;
             transition: opacity 0.15s ease;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
+            backdrop-flag: blur(8px);
         }
 
         @media (max-width: 1024px) {
@@ -583,7 +580,7 @@
     <nav>
         <a href="#top" class="brand"><span class="brand-dot"></span>HERONJI.FX</a>
         <div class="nav-links">
-            <a href="#top">Stüdyo</a>
+            <a href="#top">Odam</a>
             <a href="#projeler">Terminaller</a>
             <a href="#hakkimda">Hakkımda & Kontrol</a>
         </div>
@@ -592,21 +589,21 @@
     <!-- Kaydırma Akışı -->
     <main class="scroll-track" id="top">
         
-        <!-- 1. Bölüm: Gerçekçi Çalışma Masası, Ultra-İnce Monitör & Akıllı Telefon -->
+        <!-- 1. Bölüm: Gerçek Odasının 3D Modeli (Kasan, Monitöründe HERONJI Ekranı ve Raflar) -->
         <section class="section-hero">
-            <div class="hero-meta">SYSTEM ARCHITECTURE // MULTI-DEVICE</div>
+            <div class="hero-meta">HERONJI SETUP // REAL ROOM 3D</div>
             <p class="hero-sub">
-                Masaüstü iş istasyonlarından mobil cihazlara kadar her platformda kusursuz çalışan yapay zeka sistemleri ve modern web mimarileri.
+                Gerçek odanın komuta merkezi. Monitöründe Heronji paneli ve sağda RGB sıvı soğutmalı kasanız ile tam birebir 3D modelleme.
             </p>
             <div class="scroll-cue">
-                <span>Terminalleri Görüntülemek İçin Kaydır</span>
+                <span>Komuta Terminallerine Geçmek İçin Kaydır</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M6 9l6 6 6-6"/>
                 </svg>
             </div>
         </section>
 
-        <!-- 2. Bölüm: 5'li Geniş Oval Masa & Ayrık Monitör Dizilimi -->
+        <!-- 2. Bölüm: 5'li Geniş Oval Masa & Ayrık Monitörler -->
         <section class="section-projects" id="projeler">
             <div class="projects-hud" id="projects-hud">
                 <h2>KOMUTA TERMİNALLERİ</h2>
@@ -631,11 +628,11 @@
             </div>
         </section>
 
-        <!-- 3. Bölüm: Yatay Geniş Ekran (Ultrawide) İkili Panel: Solda Hakkımda, Sağda Kontrol Merkezi -->
+        <!-- 3. Bölüm: Yatay Geniş Ekran (Ultrawide) İkili Panel -->
         <section class="section-about" id="hakkimda">
             <div class="widescreen-console">
                 
-                <!-- SOL PANEL: HAKKIMDA (Yatay Geniş Ekran Düzeni) -->
+                <!-- SOL PANEL: HAKKIMDA -->
                 <div class="console-panel">
                     <div>
                         <div class="panel-topbar">
@@ -666,7 +663,7 @@
                     <div class="about-footer">
                         <div style="display: flex; gap: 12px; flex-wrap: wrap;">
                             <a href="https://lab-dedektifi.vercel.app/" target="_blank" class="btn-solid">Lab-Dedektifi'ni Başlat</a>
-                            <a href="#top" class="btn-outline">Ana Masaya Dön</a>
+                            <a href="#top" class="btn-outline">Odaya Dön</a>
                         </div>
                         <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: #6b7280;">
                             HERONJI TOPLULUĞU © 2026
@@ -674,7 +671,7 @@
                     </div>
                 </div>
 
-                <!-- SAĞ PANEL: KONTROL MERKEZİ (Yatay Ekran Yan Modülü) -->
+                <!-- SAĞ PANEL: KONTROL MERKEZİ -->
                 <div class="console-panel">
                     <div>
                         <div class="panel-topbar">
@@ -745,12 +742,12 @@
 
     <script>
         // =========================================================================
-        // 1. FOTOGERÇEKÇİ STÜDYO SAHNESİ (NEON YOK — DOĞAL & MİMARİ IŞIKLANDIRMA)
+        // 1. FOTOGERÇEKÇİ STÜDYO SAHNESİ (GERÇEK ODA SETUP'I)
         // =========================================================================
         const container = document.getElementById('webgl-container');
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x07080a);
-        scene.fog = new THREE.FogExp2(0x07080a, 0.028);
+        scene.fog = new THREE.FogExp2(0x07080a, 0.026);
 
         const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
         camera.position.set(0, 1.85, 5.8);
@@ -761,11 +758,11 @@
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.08;
+        renderer.toneMappingExposure = 1.05;
         renderer.outputEncoding = THREE.sRGBEncoding;
         container.appendChild(renderer.domElement);
 
-        // Gerçekçi Mimari Stüdyo Ortam Yansıma Haritası (Sıcak & Nötr Stüdyo Işıkları)
+        // Mimari Ortam Haritası
         function createArchitecturalEnvMap() {
             const pmremGenerator = new THREE.PMREMGenerator(renderer);
             pmremGenerator.compileEquirectangularShader();
@@ -773,7 +770,6 @@
             const envScene = new THREE.Scene();
             envScene.background = new THREE.Color(0x090a0d);
 
-            // Tavan Doğal Gün Işığı Softbox (4500K Nötr Beyaz)
             const topSoftbox = new THREE.Mesh(
                 new THREE.PlaneGeometry(16, 6),
                 new THREE.MeshBasicMaterial({ color: 0xfff5e8, side: THREE.DoubleSide })
@@ -782,7 +778,6 @@
             topSoftbox.rotation.x = Math.PI / 2;
             envScene.add(topSoftbox);
 
-            // Sol Sıcak Mimari Dolgu Işığı (3200K Warm Tungsten)
             const warmPanel = new THREE.Mesh(
                 new THREE.PlaneGeometry(10, 7),
                 new THREE.MeshBasicMaterial({ color: 0xffd8b1, side: THREE.DoubleSide })
@@ -791,7 +786,6 @@
             warmPanel.rotation.y = Math.PI / 2;
             envScene.add(warmPanel);
 
-            // Sağ Soğuk Gümüş Yansıma Paneli (6000K Cool Daylight)
             const coolPanel = new THREE.Mesh(
                 new THREE.PlaneGeometry(10, 7),
                 new THREE.MeshBasicMaterial({ color: 0xcbd5e1, side: THREE.DoubleSide })
@@ -807,68 +801,92 @@
         scene.environment = createArchitecturalEnvMap();
 
         // =========================================================================
-        // 2. GERÇEKÇİ PROSEDÜREL PBR DOKULAR (CEVİZ AHŞAP, MAT ALÜMİNYUM, DERİ)
+        // 2. PROSEDÜREL DOKULAR (AHŞAP, DUVAR ÇITALARI, KASA İÇİ RGB & HERONJI EKRANI)
         // =========================================================================
-
-        // Doğal Koyu Ceviz Ahşap (Dark Walnut Wood) Masa Dokusu & Bump Haritası
         function createWalnutWoodTextures() {
             const canvas = document.createElement('canvas');
             canvas.width = 1024;
             canvas.height = 1024;
             const ctx = canvas.getContext('2d');
-
-            // Zengin koyu ceviz taban rengi
             ctx.fillStyle = '#241811';
             ctx.fillRect(0, 0, 1024, 1024);
-
-            // Organik ahşap damarları
             for (let i = 0; i < 420; i++) {
                 const y = Math.random() * 1024;
-                const thickness = 1 + Math.random() * 4;
-                const shade = Math.random() > 0.5 ? 'rgba(16, 10, 6, 0.35)' : 'rgba(54, 36, 24, 0.25)';
-                ctx.strokeStyle = shade;
-                ctx.lineWidth = thickness;
+                ctx.strokeStyle = Math.random() > 0.5 ? 'rgba(16, 10, 6, 0.35)' : 'rgba(54, 36, 24, 0.25)';
+                ctx.lineWidth = 1 + Math.random() * 4;
                 ctx.beginPath();
                 ctx.moveTo(0, y);
                 for (let x = 0; x <= 1024; x += 64) {
-                    const wave = Math.sin(x * 0.008 + i) * 6;
-                    ctx.lineTo(x, y + wave);
+                    ctx.lineTo(x, y + Math.sin(x * 0.008 + i) * 6);
                 }
                 ctx.stroke();
             }
-
-            const mapTex = new THREE.CanvasTexture(canvas);
-            mapTex.wrapS = THREE.RepeatWrapping;
-            mapTex.wrapT = THREE.RepeatWrapping;
-            mapTex.anisotropy = 8;
-            return mapTex;
+            const tex = new THREE.CanvasTexture(canvas);
+            tex.wrapS = THREE.RepeatWrapping;
+            tex.wrapT = THREE.RepeatWrapping;
+            tex.anisotropy = 8;
+            return tex;
         }
 
-        // Fırçalanmış Siyah Anodize Alüminyum Doku (Monitör gövdesi & alt çerçeve)
-        function createBrushedMetalTexture(includeSubtleLogo = false) {
+        // Monitörde Gösterilecek Gerçek Heronji Paneli Dokusu (Yüklediğiniz görselin dijital arayüz karşılığı)
+        function createHeroRoomScreenTexture() {
             const canvas = document.createElement('canvas');
-            canvas.width = 1024;
-            canvas.height = 128;
+            canvas.width = 1920;
+            canvas.height = 1080;
             const ctx = canvas.getContext('2d');
 
-            ctx.fillStyle = '#111215';
-            ctx.fillRect(0, 0, 1024, 128);
+            // Arka plan (YouTube / Panel arayüz koyu tema)
+            const bg = ctx.createLinearGradient(0, 0, 1920, 1080);
+            bg.addColorStop(0, '#12141c');
+            bg.addColorStop(1, '#080a0e');
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, 1920, 1080);
 
-            // Çok ince mikro fırça çizgileri
-            for (let y = 0; y < 128; y += 1) {
-                const alpha = 0.01 + Math.random() * 0.02;
-                ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-                ctx.fillRect(0, y, 1024, 1);
-            }
+            // Üst Kanal Banner alanı
+            ctx.fillStyle = '#1e222d';
+            ctx.fillRect(240, 80, 1440, 240);
 
-            // Çok zor fark edilen (lazer kazıma) "HERONJI.FX" marka imzası
-            if (includeSubtleLogo) {
-                ctx.font = '600 18px Inter, sans-serif';
-                ctx.fillStyle = 'rgba(210, 215, 225, 0.14)';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.letterSpacing = '4px';
-                ctx.fillText('HERONJI.FX', 512, 66);
+            // Profil Dairesi (Avatar)
+            ctx.fillStyle = '#3b82f6';
+            ctx.beginPath();
+            ctx.arc(380, 200, 65, 0, Math.PI * 2);
+            ctx.fill();
+
+            // HERONJI Yazısı ve Kanal Bilgileri
+            ctx.font = '800 48px Inter, sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'left';
+            ctx.fillText('HERONJI', 470, 185);
+
+            ctx.font = '500 22px Inter, sans-serif';
+            ctx.fillStyle = '#9ca3af';
+            ctx.fillText('@heronji.fx · 1.43 B abone · 3 video', 470, 230);
+
+            // Sekmeler (Ana Sayfa, Videolar, Oynatma Listeleri vb.)
+            const tabs = ['Ana Sayfa', 'Videolar', 'Oynatma Listeleri', 'Topluluk', 'Kanallar', 'Hakkında'];
+            ctx.font = '600 20px Inter, sans-serif';
+            tabs.forEach((tab, i) => {
+                ctx.fillStyle = i === 0 ? '#3b82f6' : '#9ca3af';
+                ctx.fillText(tab, 240 + i * 160, 370);
+            });
+            ctx.fillStyle = '#3b82f6';
+            ctx.fillRect(240, 390, 100, 4);
+
+            // Öne Çıkan Video Kartları (Görseldeki gibi)
+            for (let i = 0; i < 3; i++) {
+                const x = 240 + i * 490;
+                ctx.fillStyle = '#1a1d26';
+                ctx.beginPath();
+                ctx.roundRect(x, 440, 450, 260, 16);
+                ctx.fill();
+
+                // Video küçük resim placeholder
+                ctx.fillStyle = i === 0 ? '#d97706' : (i === 1 ? '#7c3aed' : '#059669');
+                ctx.fillRect(x + 20, y = 460, 410, 150);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '700 18px Inter, sans-serif';
+                ctx.fillText(`HERONJI Proje Modülü 0${i+1}`, x + 20, 645);
             }
 
             const tex = new THREE.CanvasTexture(canvas);
@@ -877,406 +895,30 @@
         }
 
         const walnutTexture = createWalnutWoodTextures();
-        const brushedMetalTex = createBrushedMetalTexture(false);
-        const stealthLogoChinTex = createBrushedMetalTexture(true);
+        const heroScreenTex = createHeroRoomScreenTexture();
 
         // =========================================================================
-        // 3. DOĞAL MİMARİ STÜDYO IŞIKLANDIRMASI (NEON RENKLER TAMAMEN KALDIRILDI)
+        // 3. IŞIKLANDIRma
         // =========================================================================
         const hemiLight = new THREE.HemisphereLight(0xf8fafc, 0x181412, 0.85);
         scene.add(hemiLight);
 
-        // Ana Stüdyo Tepe Işığı (Yumuşak Gölgeli)
-        const mainKeyLight = new THREE.SpotLight(0xfff7ed, 2.4);
+        const mainKeyLight = new THREE.SpotLight(0xfff7ed, 2.5);
         mainKeyLight.position.set(1.5, 7.5, 4.5);
         mainKeyLight.angle = Math.PI / 3.6;
         mainKeyLight.penumbra = 0.85;
         mainKeyLight.castShadow = true;
         mainKeyLight.shadow.mapSize.width = 2048;
         mainKeyLight.shadow.mapSize.height = 2048;
-        mainKeyLight.shadow.bias = -0.0004;
         scene.add(mainKeyLight);
 
-        // Sol Sıcak Masa Lambası Dolgusu (Amber/Tungsten)
-        const warmFillLight = new THREE.PointLight(0xffedd5, 1.3, 15);
-        warmFillLight.position.set(-4.5, 2.8, 2.5);
-        scene.add(warmFillLight);
-
-        // Sağ Soğuk Pencere Yansıması (Doğal Gümüş Beyaz)
-        const coolRimLight = new THREE.PointLight(0xe2e8f0, 1.2, 15);
-        coolRimLight.position.set(4.5, 3.0, 2.5);
-        scene.add(coolRimLight);
-
         // =========================================================================
-        // 4. GERÇEKÇİ EKRAN ARAYÜZLERİ (YAZISIZ ANA EKRAN & PROJE EKRANLARI)
-        // =========================================================================
-
-        // Başlangıç Ana Monitör Ekranı: Şık, sade, Apple Pro Display / ROG ProArt tarzı soyut koyu duvar kağıdı (Yazısız)
-        function createMainMonitorOLEDTexture() {
-            const canvas = document.createElement('canvas');
-            canvas.width = 1920;
-            canvas.height = 1080;
-            const ctx = canvas.getContext('2d');
-
-            // Zengin derin obsidyen ve sıcak koyu arduvaz gradyan (Neon yok)
-            const bg = ctx.createLinearGradient(0, 0, 1920, 1080);
-            bg.addColorStop(0, '#090a0f');
-            bg.addColorStop(0.5, '#12151e');
-            bg.addColorStop(1, '#08090c');
-            ctx.fillStyle = bg;
-            ctx.fillRect(0, 0, 1920, 1080);
-
-            // Mimari ışık kırılması (Soyut cam/metalik dalga)
-            const glow1 = ctx.createRadialGradient(680, 460, 20, 680, 460, 620);
-            glow1.addColorStop(0, 'rgba(217, 119, 6, 0.16)');
-            glow1.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.fillStyle = glow1;
-            ctx.fillRect(0, 0, 1920, 1080);
-
-            const glow2 = ctx.createRadialGradient(1280, 620, 20, 1280, 620, 680);
-            glow2.addColorStop(0, 'rgba(148, 163, 184, 0.14)');
-            glow2.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.fillStyle = glow2;
-            ctx.fillRect(0, 0, 1920, 1080);
-
-            // İnce geometrik çizgiler (Sadece zarif endüstriyel grafik)
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.arc(960, 540, 260, 0, Math.PI * 2);
-            ctx.stroke();
-
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
-            ctx.beginPath();
-            ctx.arc(960, 540, 165, -0.4, Math.PI + 0.4);
-            ctx.stroke();
-
-            // Minimalist macOS / StudioOS alt dock çubuğu (Yazısız)
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
-            ctx.beginPath();
-            ctx.roundRect(740, 1012, 440, 38, 12);
-            ctx.fill();
-
-            for (let i = 0; i < 6; i++) {
-                ctx.fillStyle = i === 0 ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.25)';
-                ctx.beginPath();
-                ctx.roundRect(768 + i * 66, 1020, 22, 22, 6);
-                ctx.fill();
-            }
-
-            const tex = new THREE.CanvasTexture(canvas);
-            tex.anisotropy = 8;
-            return tex;
-        }
-
-        // Telefon Ekranı Dokusu (Responsive mobil görünüm)
-        function createSmartphoneOLEDTexture() {
-            const canvas = document.createElement('canvas');
-            canvas.width = 540;
-            canvas.height = 1160;
-            const ctx = canvas.getContext('2d');
-
-            const bg = ctx.createLinearGradient(0, 0, 540, 1160);
-            bg.addColorStop(0, '#0d0f14');
-            bg.addColorStop(1, '#161922');
-            ctx.fillStyle = bg;
-            ctx.fillRect(0, 0, 540, 1160);
-
-            // Dynamic Island
-            ctx.fillStyle = '#000000';
-            ctx.beginPath();
-            ctx.roundRect(195, 24, 150, 34, 17);
-            ctx.fill();
-
-            // Soyut görsel alan
-            const rad = ctx.createRadialGradient(270, 320, 10, 270, 320, 180);
-            rad.addColorStop(0, 'rgba(217, 119, 6, 0.25)');
-            rad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.fillStyle = rad;
-            ctx.fillRect(0, 100, 540, 440);
-
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(270, 320, 95, 0, Math.PI * 2);
-            ctx.stroke();
-
-            // Mobil Kart Önizlemeleri
-            for (let i = 0; i < 3; i++) {
-                const y = 520 + i * 170;
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
-                ctx.beginPath();
-                ctx.roundRect(40, y, 460, 140, 18);
-                ctx.fill();
-
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-                ctx.lineWidth = 1.5;
-                ctx.stroke();
-
-                ctx.fillStyle = i === 0 ? '#10b981' : '#d97706';
-                ctx.beginPath();
-                ctx.arc(76, y + 42, 6, 0, Math.PI * 2);
-                ctx.fill();
-
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
-                ctx.fillRect(96, y + 35, 210, 14);
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
-                ctx.fillRect(68, y + 72, 340, 10);
-                ctx.fillRect(68, y + 94, 240, 10);
-            }
-
-            const tex = new THREE.CanvasTexture(canvas);
-            tex.anisotropy = 8;
-            return tex;
-        }
-
-        // 5'li Oval Masa Monitörlerinin Ekran Dokuları (Şık, Kurumsal & Fütüristik OLED)
-        function createProjectOLEDTexture(title, subtitle, statusColor, isLockedMessage = false) {
-            const canvas = document.createElement('canvas');
-            canvas.width = 1440;
-            canvas.height = 810;
-            const ctx = canvas.getContext('2d');
-
-            // Derin OLED Mat Siyah-Antrasit Gradyan
-            const grad = ctx.createLinearGradient(0, 0, 1440, 810);
-            grad.addColorStop(0, '#0a0b0e');
-            grad.addColorStop(1, '#12141b');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, 1440, 810);
-
-            // Çok ince nokta matrisi (Micro-dot grid)
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
-            for (let x = 40; x < 1440; x += 40) {
-                for (let y = 40; y < 810; y += 40) {
-                    ctx.fillRect(x, y, 1.5, 1.5);
-                }
-            }
-
-            if (isLockedMessage) {
-                // 5 Saniyelik "HENÜZ HAZIR DEĞİL" Uyarısı (Zarif ama net)
-                ctx.fillStyle = 'rgba(239, 68, 68, 0.08)';
-                ctx.beginPath();
-                ctx.roundRect(120, 210, 1200, 390, 24);
-                ctx.fill();
-
-                ctx.strokeStyle = 'rgba(239, 68, 68, 0.65)';
-                ctx.lineWidth = 3;
-                ctx.stroke();
-
-                ctx.font = '800 76px Inter, sans-serif';
-                ctx.fillStyle = '#f87171';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText('HENÜZ HAZIR DEĞİL', 720, 375);
-
-                ctx.font = '500 28px Inter, sans-serif';
-                ctx.fillStyle = '#9ca3af';
-                ctx.fillText('Bu modül şu anda geliştirme aşamasındadır.', 720, 465);
-            } else {
-                // Üst Durum Çubuğu
-                ctx.fillStyle = statusColor;
-                ctx.beginPath();
-                ctx.arc(84, 76, 7, 0, Math.PI * 2);
-                ctx.fill();
-
-                ctx.font = '600 22px Inter, sans-serif';
-                ctx.fillStyle = '#9ca3af';
-                ctx.textAlign = 'left';
-                ctx.fillText(subtitle, 106, 83);
-
-                ctx.textAlign = 'right';
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
-                ctx.fillText('HERONJI OS', 1360, 83);
-
-                // Orta Başlık
-                ctx.font = '800 84px Inter, sans-serif';
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(title, 720, 390);
-
-                // Alt Minimalist Aksiyon Butonu
-                ctx.fillStyle = title === 'LAB-DEDEKTİFİ' ? '#f4f4f6' : 'rgba(255, 255, 255, 0.08)';
-                ctx.beginPath();
-                ctx.roundRect(540, 515, 360, 64, 14);
-                ctx.fill();
-
-                if (title !== 'LAB-DEDEKTİFİ') {
-                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
-                }
-
-                ctx.font = '700 22px Inter, sans-serif';
-                ctx.fillStyle = title === 'LAB-DEDEKTİFİ' ? '#07080a' : '#e5e7eb';
-                ctx.fillText(title === 'LAB-DEDEKTİFİ' ? 'SİSTEMİ AÇ →' : 'DURUMU KONTROL ET', 720, 549);
-            }
-
-            const tex = new THREE.CanvasTexture(canvas);
-            tex.anisotropy = 8;
-            return tex;
-        }
-
-        // =========================================================================
-        // 5. GERÇEKÇİ ASUS ROG / STUDIO DISPLAY TARZI MONİTÖR MODELİ (NEONSUZ, METALİK)
-        // =========================================================================
-        function buildRealisticMonitor(width, height, screenTexture) {
-            const monitorRoot = new THREE.Group();
-
-            const anodizedBlackMat = new THREE.MeshStandardMaterial({
-                map: brushedMetalTex,
-                color: 0x18191e,
-                metalness: 0.88,
-                roughness: 0.24
-            });
-
-            const gunmetalStandMat = new THREE.MeshStandardMaterial({
-                color: 0x262830,
-                metalness: 0.92,
-                roughness: 0.2
-            });
-
-            // 1. Keskin Hatlı 3 Ayaklı ROG / Studio Metal Stand
-            const centerHub = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.16, 0.04, 6), gunmetalStandMat);
-            centerHub.position.set(0, 0.02, -0.14);
-            centerHub.castShadow = true;
-            centerHub.receiveShadow = true;
-            monitorRoot.add(centerHub);
-
-            const legGeo = new THREE.BoxGeometry(0.52, 0.024, 0.06);
-            const legL = new THREE.Mesh(legGeo, gunmetalStandMat);
-            legL.position.set(-0.21, 0.012, 0.02);
-            legL.rotation.y = -0.5;
-            legL.castShadow = true;
-
-            const legR = new THREE.Mesh(legGeo, gunmetalStandMat);
-            legR.position.set(0.21, 0.012, 0.02);
-            legR.rotation.y = 0.5;
-            legR.castShadow = true;
-
-            const legBack = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.024, 0.3), gunmetalStandMat);
-            legBack.position.set(0, 0.012, -0.29);
-            legBack.castShadow = true;
-
-            monitorRoot.add(legL, legR, legBack);
-
-            // 2. Açılı Alüminyum Monitör Kolu
-            const neckHeight = height * 0.62 + 0.34;
-            const standArm = new THREE.Mesh(new THREE.BoxGeometry(0.1, neckHeight, 0.065), anodizedBlackMat);
-            standArm.position.set(0, neckHeight / 2, -0.16);
-            standArm.rotation.x = 0.07;
-            standArm.castShadow = true;
-            monitorRoot.add(standArm);
-
-            // 3. Monitör Panel Grubu (Ultra-İnce Çerçeveli)
-            const panelGroup = new THREE.Group();
-            const panelCenterY = height / 2 + 0.28;
-            panelGroup.position.set(0, panelCenterY, -0.05);
-            panelGroup.rotation.x = -0.025;
-            monitorRoot.add(panelGroup);
-
-            // Arka ince alüminyum kasa
-            const chassisDepth = 0.028;
-            const chassis = new THREE.Mesh(
-                new THREE.BoxGeometry(width, height, chassisDepth),
-                anodizedBlackMat
-            );
-            chassis.castShadow = true;
-            chassis.receiveShadow = true;
-            panelGroup.add(chassis);
-
-            // Ultra-ince çerçeveler ve alt çene (chin)
-            const bezelThickness = 0.01;
-            const bottomChinHeight = 0.038;
-
-            // Alt Çerçeve (Chin): Çok zor fark edilecek lazer kazıma "HERONJI.FX" marka baskısı
-            const chinMat = new THREE.MeshStandardMaterial({
-                map: stealthLogoChinTex,
-                metalness: 0.9,
-                roughness: 0.22
-            });
-            const bottomChin = new THREE.Mesh(
-                new THREE.BoxGeometry(width, bottomChinHeight, chassisDepth + 0.003),
-                chinMat
-            );
-            bottomChin.position.set(0, -(height / 2) + (bottomChinHeight / 2), 0.0015);
-            panelGroup.add(bottomChin);
-
-            // OLED Ekran Paneli
-            const screenW = width - (bezelThickness * 2);
-            const screenH = height - bezelThickness - bottomChinHeight;
-            const screenYOffset = (bottomChinHeight - bezelThickness) / 2;
-
-            const screenGeo = new THREE.PlaneGeometry(screenW, screenH);
-            const screenMat = new THREE.MeshStandardMaterial({
-                map: screenTexture,
-                emissiveMap: screenTexture,
-                emissive: new THREE.Color(0xffffff),
-                emissiveIntensity: 0.92,
-                roughness: 0.14,
-                metalness: 0.08
-            });
-            const screenMesh = new THREE.Mesh(screenGeo, screenMat);
-            screenMesh.position.set(0, screenYOffset, chassisDepth / 2 + 0.002);
-            panelGroup.add(screenMesh);
-
-            return {
-                root: monitorRoot,
-                screenMesh: screenMesh
-            };
-        }
-
-        // =========================================================================
-        // 6. GERÇEKÇİ AKILLI TELEFON MODELİ (MASA ÜZERİNDE STANDDA)
-        // =========================================================================
-        function buildRealisticSmartphone() {
-            const phoneGroup = new THREE.Group();
-
-            const titaniumMat = new THREE.MeshStandardMaterial({
-                color: 0x2c2e35,
-                metalness: 0.94,
-                roughness: 0.18
-            });
-            const phoneBody = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.66, 0.024), titaniumMat);
-            phoneBody.castShadow = true;
-            phoneGroup.add(phoneBody);
-
-            const phoneTex = createSmartphoneOLEDTexture();
-            const phoneScreenMat = new THREE.MeshStandardMaterial({
-                map: phoneTex,
-                emissiveMap: phoneTex,
-                emissive: new THREE.Color(0xffffff),
-                emissiveIntensity: 0.9,
-                roughness: 0.08
-            });
-            const phoneScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.298, 0.638), phoneScreenMat);
-            phoneScreen.position.z = 0.013;
-            phoneGroup.add(phoneScreen);
-
-            const standMat = new THREE.MeshStandardMaterial({ color: 0x1c1d22, metalness: 0.9, roughness: 0.25 });
-            const standBase = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.016, 0.24), standMat);
-            standBase.position.set(0, -0.32, -0.02);
-            standBase.castShadow = true;
-
-            const standBack = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.35, 0.016), standMat);
-            standBack.position.set(0, -0.15, -0.06);
-            standBack.rotation.x = -0.22;
-
-            const assembly = new THREE.Group();
-            phoneGroup.rotation.x = -0.22;
-            assembly.add(phoneGroup, standBase, standBack);
-            assembly.position.y = 0.33;
-
-            return assembly;
-        }
-
-        // =========================================================================
-        // 7. BÖLÜM 1: DOĞAL CEVİZ AHŞAP ÇALIŞMA MASASI & MİMARİ ODA (NEONSUZ)
+        // 4. GERÇEK ODA SETUP MODELİ (MASA, DUVAR ÇITALARI, MONİTÖR, KLAVYE, MOUSE VE RGB KASA)
         // =========================================================================
         const studioGroup = new THREE.Group();
         scene.add(studioGroup);
 
-        // Oda Zemini (Mat koyu taş/beton)
+        // Zemin
         const floor = new THREE.Mesh(
             new THREE.PlaneGeometry(45, 45),
             new THREE.MeshStandardMaterial({ color: 0x090a0d, roughness: 0.65, metalness: 0.15 })
@@ -1286,7 +928,7 @@
         floor.receiveShadow = true;
         studioGroup.add(floor);
 
-        // Arka Akustik Ceviz & Keçe Duvar Paneli
+        // Duvar Ahşap Çıtaları (Görselinizdeki odanın ikonik duvarı)
         const wallGroup = new THREE.Group();
         wallGroup.position.set(0, 1.5, -2.6);
         studioGroup.add(wallGroup);
@@ -1310,7 +952,7 @@
             wallGroup.add(slat);
         }
 
-        // Çalışma Masası (Doğal Koyu Ceviz Ahşap Tabla + Mat Siyah Çelik Ayaklar)
+        // Çalışma Masası
         const deskGroup = new THREE.Group();
         studioGroup.add(deskGroup);
 
@@ -1321,11 +963,11 @@
         });
         const deskTop = new THREE.Mesh(new THREE.BoxGeometry(4.8, 0.11, 1.95), walnutDeskMat);
         deskTop.position.set(0, -0.055, 0);
-        deskTop.castShadow = true;
+        deskTop.castShield = true;
         deskTop.receiveShadow = true;
         deskGroup.add(deskTop);
 
-        // Mat Siyah Çelik Masa Ayakları
+        // Masa Ayakları
         const steelLegMat = new THREE.MeshStandardMaterial({ color: 0x121317, metalness: 0.85, roughness: 0.35 });
         const dLegL = new THREE.Mesh(new THREE.BoxGeometry(0.09, 1.35, 1.55), steelLegMat);
         dLegL.position.set(-2.1, -0.72, 0);
@@ -1333,7 +975,7 @@
         dLegR.position.set(2.1, -0.72, 0);
         deskGroup.add(dLegL, dLegR);
 
-        // Mat Keçe/Deri Deskmat
+        // Siyah Deskmat
         const deskMat = new THREE.Mesh(
             new THREE.BoxGeometry(2.6, 0.01, 0.82),
             new THREE.MeshStandardMaterial({ color: 0x141519, roughness: 0.88 })
@@ -1342,173 +984,211 @@
         deskMat.receiveShadow = true;
         deskGroup.add(deskMat);
 
-        // Minimalist Alüminyum Mekanik Klavye (RGB Neonsuz, Sıcak Beyaz Tuş Arası Işık)
-        const kbGroup = new THREE.Group();
-        kbGroup.position.set(-0.25, 0.022, 0.34);
-        deskGroup.add(kbGroup);
+        // Monitör (Üzerinde HERONJI kanal arayüzü açık!)
+        const monitorGroup = new THREE.Group();
+        monitorGroup.position.set(-0.35, 0.72, -0.32);
+        deskGroup.add(monitorGroup);
 
+        const screenGeo = new THREE.PlaneGeometry(2.4, 1.38);
+        const screenMat = new THREE.MeshStandardMaterial({
+            map: heroScreenTex,
+            emissiveMap: heroScreenTex,
+            emissive: new THREE.Color(0xffffff),
+            emissiveIntensity: 0.92,
+            roughness: 0.12
+        });
+        const screenMesh = new THREE.Mesh(screenGeo, screenMat);
+        monitorGroup.add(screenMesh);
+
+        // Monitör Ayağı
+        const standMat = new THREE.MeshStandardMaterial({ color: 0x22242a, metalness: 0.9, roughness: 0.2 });
+        const mStand = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.65, 0.08), standMat);
+        mStand.position.set(0, -0.92, -0.05);
+        monitorGroup.add(mStand);
+
+        // Mekanik Klavye (Görselinizdeki beyaz/gri tuşlu klavye)
+        const kbGroup = new THREE.Group();
+        kbGroup.position.set(-0.35, 0.022, 0.38);
+        deskGroup.add(kbGroup);
         const kbBase = new THREE.Mesh(
-            new THREE.BoxGeometry(0.94, 0.026, 0.33),
-            new THREE.MeshStandardMaterial({ color: 0x22242a, metalness: 0.85, roughness: 0.25 })
+            new THREE.BoxGeometry(0.95, 0.026, 0.34),
+            new THREE.MeshStandardMaterial({ color: 0xf4f4f6, roughness: 0.3 })
         );
-        kbBase.castShadow = true;
         kbGroup.add(kbBase);
 
-        const keyMat = new THREE.MeshStandardMaterial({ color: 0x111216, roughness: 0.55 });
-        for (let r = 0; r < 5; r++) {
-            for (let c = 0; c < 15; c++) {
-                const key = new THREE.Mesh(new THREE.BoxGeometry(0.048, 0.016, 0.048), keyMat);
-                key.position.set(-0.405 + c * 0.058, 0.018, -0.105 + r * 0.055);
-                kbGroup.add(key);
-            }
-        }
-
-        // Ergonomik Mat Siyah Mouse
+        // Delikli / RGB Oyuncu Mouse (Görselinizdeki beyaz fare)
         const mouseBody = new THREE.Mesh(
-            new THREE.BoxGeometry(0.145, 0.042, 0.25),
-            new THREE.MeshStandardMaterial({ color: 0x16171c, metalness: 0.4, roughness: 0.4 })
+            new THREE.BoxGeometry(0.14, 0.04, 0.24),
+            new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.25 })
         );
-        mouseBody.position.set(0.62, 0.03, 0.34);
-        mouseBody.castShadow = true;
+        mouseBody.position.set(0.55, 0.028, 0.38);
         deskGroup.add(mouseBody);
 
-        // ANA MONİTÖR (Ultra-İnce Çerçeveli, Yazısız OLED Ekranlı)
-        const mainScreenTex = createMainMonitorOLEDTexture();
-        const mainMonitor = buildRealisticMonitor(2.9, 1.64, mainScreenTex);
-        mainMonitor.root.position.set(-0.18, 0, -0.34);
-        deskGroup.add(mainMonitor.root);
+        // SAĞDAKİ BİLGİSAYAR KASASI (RGB Sıvı Soğutmalı, Beyaz Kasa - Görselinizle Birebir)
+        const caseGroup = new THREE.Group();
+        caseGroup.position.set(1.22, 0.65, -0.15);
+        deskGroup.add(caseGroup);
 
-        // AKILLI TELEFON (Sağ tarafta stand üzerinde -> Tüm cihazlarda çalışır)
-        const smartphone = buildRealisticSmartphone();
-        smartphone.position.set(1.62, 0, 0.08);
-        smartphone.rotation.y = -0.36;
-        deskGroup.add(smartphone);
+        // Kasa Dış Çerçevesi (Beyaz)
+        const caseFrame = new THREE.Mesh(
+            new THREE.BoxGeometry(0.75, 0.95, 0.85),
+            new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.2, metalness: 0.8 })
+        );
+        caseFrame.castShadow = true;
+        caseGroup.add(caseFrame);
+
+        // Kasa İçi Cam Bölme & RGB Parıltı
+        const caseInterior = new THREE.Mesh(
+            new THREE.BoxGeometry(0.68, 0.88, 0.78),
+            new THREE.MeshStandardMaterial({ color: 0x0a0c10, roughness: 0.1, emissive: 0x3b82f6, emissiveIntensity: 0.4 })
+        );
+        caseInterior.position.x = -0.02;
+        caseGroup.add(caseInterior);
 
         // =========================================================================
-        // 8. BÖLÜM 2: GENİŞ OVAL TOPLANTI / KOMUTA MASASI VE BİRBİRİNE DEĞMEYEN 5 MONİTÖR
+        // 5. BÖLÜM 2: GENİŞ OVAL KOMUTA MASASI VE 5 MONİTÖR
         // =========================================================================
         const ovalStationGroup = new THREE.Group();
-        ovalStationGroup.position.set(0, -11.5, 0); // Başlangıçta aşağıda gizli
+        ovalStationGroup.position.set(0, -11.5, 0);
         scene.add(ovalStationGroup);
 
-        // Geniş Oval Masa (rx = 7.4 birim -> 5 monitör arası geniş boşluk bırakır, asla iç içe girmez!)
-        function createWideOvalDesk() {
-            const shape = new THREE.Shape();
-            const rx = 7.4;  // Geniş yatay yarıçap (14.8 birim toplam genişlik)
-            const rz = 2.55; // Derinlik yarıçapı
-            shape.absellipse(0, 0, rx, rz, 0, Math.PI * 2, false, 0);
-
-            const extrudeSettings = {
-                depth: 0.14,
-                bevelEnabled: true,
-                bevelSegments: 5,
-                steps: 1,
-                bevelSize: 0.035,
-                bevelThickness: 0.025
-            };
-
-            const geo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-            geo.rotateX(Math.PI / 2);
-
-            const mat = new THREE.MeshStandardMaterial({
-                map: walnutTexture,
-                roughness: 0.4,
-                metalness: 0.12
-            });
-
-            const mesh = new THREE.Mesh(geo, mat);
-            mesh.position.set(0, 0, 0.5);
-            mesh.castShadow = true;
-            mesh.receiveShadow = true;
-            return mesh;
-        }
-
-        const ovalDesk = createWideOvalDesk();
+        const ovalDesk = new THREE.Mesh(
+            new THREE.CylinderGeometry(7.4, 7.8, 0.14, 32),
+            new THREE.MeshStandardMaterial({ map: walnutTexture, roughness: 0.4, metalness: 0.12 })
+        );
+        ovalDesk.scale.set(1, 1, 0.45);
+        ovalDesk.position.set(0, 0, 0.5);
+        ovalDesk.receiveShadow = true;
         ovalStationGroup.add(ovalDesk);
 
-        // Oval Masa Altı Mimari Mat Siyah Çelik Sütun Ayaklar
         const pillarMat = new THREE.MeshStandardMaterial({ color: 0x111216, metalness: 0.88, roughness: 0.28 });
-        const pillarL = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.42, 1.45, 24), pillarMat);
-        pillarL.position.set(-3.6, -0.78, 0.5);
-        const pillarR = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.42, 1.45, 24), pillarMat);
-        pillarR.position.set(3.6, -0.78, 0.5);
-        ovalStationGroup.add(pillarL, pillarR);
+        const pL = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.42, 1.45, 24), pillarMat);
+        pL.position.set(-3.6, -0.78, 0.5);
+        const pR = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.42, 1.45, 24), pillarMat);
+        pR.position.set(3.6, -0.78, 0.5);
+        ovalStationGroup.add(pL, pR);
 
-        // 5 Adet Monitör (Geniş Aralıklarla — Aralarında Net Boşluk Olacak Şekilde)
-        const projectConfigs = [
-            {
-                name: 'LAB-DEDEKTİFİ',
-                sub: 'MODÜL 01 // AKTİF YAYIN',
-                statusColor: '#10b981',
-                url: 'https://lab-dedektifi.vercel.app/',
-                ready: true
-            },
-            {
-                name: 'YANLIŞ DEĞİL',
-                sub: 'MODÜL 02 // GELİŞTİRME AŞAMASINDA',
-                statusColor: '#d97706',
-                url: null,
-                ready: false
-            },
-            {
-                name: 'J.A.R.V.I.S.',
-                sub: 'MODÜL 03 // GELİŞTİRME AŞAMASINDA',
-                statusColor: '#d97706',
-                url: null,
-                ready: false
-            },
-            {
-                name: 'FRIDAY',
-                sub: 'MODÜL 04 // GELİŞTİRME AŞAMASINDA',
-                statusColor: '#d97706',
-                url: null,
-                ready: false
-            },
-            {
-                name: 'ULTRON',
-                sub: 'MODÜL 05 // GELİŞTİRME AŞAMASINDA',
-                statusColor: '#d97706',
-                url: null,
-                ready: false
+        // Proje Monitörleri Dokusu Oluşturucu
+        function createProjectOLEDTexture(title, subtitle, statusColor, isLockedMessage = false) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 1440;
+            canvas.height = 810;
+            const ctx = canvas.getContext('2d');
+
+            const grad = ctx.createLinearGradient(0, 0, 1440, 810);
+            grad.addColorStop(0, '#0a0b0e');
+            grad.addColorStop(1, '#12141b');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 1440, 810);
+
+            if (isLockedMessage) {
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.08)';
+                ctx.beginPath();
+                ctx.roundRect(120, 210, 1200, 390, 24);
+                ctx.fill();
+
+                ctx.strokeStyle = 'rgba(239, 68, 68, 0.65)';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                ctx.font = '800 76px Inter, sans-serif';
+                ctx.fillStyle = '#f87171';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('HENÜZ HAZIR DEĞİL', 720, 375);
+
+                ctx.font = '500 28px Inter, sans-serif';
+                ctx.fillStyle = '#9ca3af';
+                ctx.fillText('Bu modül şu anda geliştirme aşamasındadır.', 720, 465);
+            } else {
+                ctx.fillStyle = statusColor;
+                ctx.beginPath();
+                ctx.arc(84, 76, 7, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.font = '600 22px Inter, sans-serif';
+                ctx.fillStyle = '#9ca3af';
+                ctx.textAlign = 'left';
+                ctx.fillText(subtitle, 106, 83);
+
+                ctx.font = '800 84px Inter, sans-serif';
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(title, 720, 390);
+
+                ctx.fillStyle = title === 'LAB-DEDEKTİFİ' ? '#f4f4f6' : 'rgba(255, 255, 255, 0.08)';
+                ctx.beginPath();
+                ctx.roundRect(540, 515, 360, 64, 14);
+                ctx.fill();
+
+                ctx.font = '700 22px Inter, sans-serif';
+                ctx.fillStyle = title === 'LAB-DEDEKTİFİ' ? '#07080a' : '#e5e7eb';
+                ctx.fillText(title === 'LAB-DEDEKTİFİ' ? 'SİSTEMİ AÇ →' : 'DURUMU KONTROL ET', 720, 549);
             }
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        function buildOvalMonitor(width, height, screenTexture) {
+            const root = new THREE.Group();
+            const frameMat = new THREE.MeshStandardMaterial({ color: 0x18191e, metalness: 0.88, roughness: 0.24 });
+            
+            const stand = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.5, 0.05), frameMat);
+            stand.position.set(0, 0.25, -0.1);
+            root.add(stand);
+
+            const panel = new THREE.Mesh(new THREE.BoxGeometry(width, height, 0.03), frameMat);
+            panel.position.set(0, height/2 + 0.5, -0.05);
+            panel.castShadow = true;
+            root.add(panel);
+
+            const screen = new THREE.Mesh(
+                new THREE.PlaneGeometry(width - 0.04, height - 0.04),
+                new THREE.MeshStandardMaterial({ map: screenTexture, emissive: 0xffffff, emissiveMap: screenTexture, emissiveIntensity: 0.9 })
+            );
+            screen.position.set(0, height/2 + 0.5, 0.01 + 0.015);
+            root.add(screen);
+
+            return { root, screenMesh: screen };
+        }
+
+        const projectConfigs = [
+            { name: 'LAB-DEDEKTİFİ', sub: 'MODÜL 01 // AKTİF YAYIN', statusColor: '#10b981', url: 'https://lab-dedektifi.vercel.app/', ready: true },
+            { name: 'YANLIŞ DEĞİL', sub: 'MODÜL 02 // W.I.P', statusColor: '#d97706', url: null, ready: false },
+            { name: 'J.A.R.V.I.S.', sub: 'MODÜL 03 // W.I.P', statusColor: '#d97706', url: null, ready: false },
+            { name: 'FRIDAY', sub: 'MODÜL 04 // W.I.P', statusColor: '#d97706', url: null, ready: false },
+            { name: 'ULTRON', sub: 'MODÜL 05 // W.I.P', statusColor: '#d97706', url: null, ready: false }
         ];
 
         const screenMeshes = [];
 
-        // Matematiksel olarak sıfır çakışma (Zero Overlap) garantili yerleşim:
-        // Her monitör genişliği: 1.85 birim. Yay üzerindeki merkezler arası mesafe: ~2.38 birim -> Arada ~0.53 birim net boşluk!
         projectConfigs.forEach((proj, idx) => {
-            const offsetIdx = idx - 2; // -2, -1, 0, +1, +2
-            const angle = offsetIdx * 0.42; // Geniş açısal aralık
-
-            const radiusX = 5.85;
-            const radiusZ = 1.75;
-
-            const xPos = Math.sin(angle) * radiusX;
-            const zPos = 0.5 - Math.cos(angle) * radiusZ;
+            const offsetIdx = idx - 2;
+            const angle = offsetIdx * 0.42;
+            const xPos = Math.sin(angle) * 5.85;
+            const zPos = 0.5 - Math.cos(angle) * 1.75;
 
             const defaultTex = createProjectOLEDTexture(proj.name, proj.sub, proj.statusColor, false);
-            const monitorObj = buildRealisticMonitor(1.85, 1.06, defaultTex);
+            const mon = buildOvalMonitor(1.85, 1.06, defaultTex);
 
-            monitorObj.root.position.set(xPos, 0, zPos);
-            // Monitörleri kavis boyunca kullanıcıya çevir
-            monitorObj.root.rotation.y = -angle * 0.78;
+            mon.root.position.set(xPos, 0, zPos);
+            mon.root.rotation.y = -angle * 0.78;
 
-            monitorObj.screenMesh.userData = {
+            mon.screenMesh.userData = {
                 index: idx,
                 config: proj,
                 defaultTexture: defaultTex,
                 lockedTexture: null,
                 timeoutId: null,
-                monitorRoot: monitorObj.root
+                monitorRoot: mon.root
             };
 
-            ovalStationGroup.add(monitorObj.root);
-            screenMeshes.push(monitorObj.screenMesh);
+            ovalStationGroup.add(mon.root);
+            screenMeshes.push(mon.screenMesh);
         });
 
         // =========================================================================
-        // 9. KAYDIRMA (SCROLL), RAYCASTING VE KAMERA GEÇİŞLERİ
+        // 6. SCROLL & RAYCAST
         // =========================================================================
         let scrollProgress = 0;
         let targetScrollProgress = 0;
@@ -1530,7 +1210,6 @@
         window.addEventListener('mousemove', (e) => {
             mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
             mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-
             tooltip.style.left = e.clientX + 'px';
             tooltip.style.top = e.clientY + 'px';
         });
@@ -1543,18 +1222,13 @@
 
         window.triggerProjectByIndex = function(idx) {
             const targetMesh = screenMeshes[idx];
-            if (targetMesh) {
-                activateScreen(targetMesh);
-            }
+            if (targetMesh) activateScreen(targetMesh);
         };
 
-        // Sağdaki Kontrol Panelinden tıklandığında ilgili 3D monitöre kaydırıp uyarıyı tetikler
         window.scrollToMonitorAndTrigger = function(idx) {
             const targetScrollY = (document.documentElement.scrollHeight - window.innerHeight) * 0.45;
             window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
-            setTimeout(() => {
-                triggerProjectByIndex(idx);
-            }, 650);
+            setTimeout(() => { triggerProjectByIndex(idx); }, 650);
         };
 
         function activateScreen(mesh) {
@@ -1567,28 +1241,17 @@
                 mesh.getWorldPosition(worldPos);
                 zoomTargetPos.copy(worldPos);
 
-                setTimeout(() => {
-                    document.getElementById('portal-overlay').classList.add('active');
-                }, 420);
-
-                setTimeout(() => {
-                    window.location.href = proj.url;
-                }, 1100);
-
+                setTimeout(() => { document.getElementById('portal-overlay').classList.add('active'); }, 420);
+                setTimeout(() => { window.location.href = proj.url; }, 1100);
             } else {
-                // 5 saniyeliğine "HENÜZ HAZIR DEĞİL" ekranı
                 if (!data.lockedTexture) {
                     data.lockedTexture = createProjectOLEDTexture(proj.name, '', '#ef4444', true);
                 }
-
                 mesh.material.map = data.lockedTexture;
                 mesh.material.emissiveMap = data.lockedTexture;
                 mesh.material.needsUpdate = true;
 
-                if (data.timeoutId) {
-                    clearTimeout(data.timeoutId);
-                }
-
+                if (data.timeoutId) clearTimeout(data.timeoutId);
                 data.timeoutId = setTimeout(() => {
                     mesh.material.map = data.defaultTexture;
                     mesh.material.emissiveMap = data.defaultTexture;
@@ -1600,7 +1263,6 @@
 
         function animate() {
             requestAnimationFrame(animate);
-
             scrollProgress += (targetScrollProgress - scrollProgress) * 0.075;
 
             if (!isZoomingToProject) {
@@ -1616,19 +1278,11 @@
                     projectsHud.classList.remove('visible');
                 }
 
-                // 5 geniş monitörün tamamının kadraja net sığması için kamera Z mesafesi
-                const desktopZ = 5.6 + smoothT * 4.4; // 5.6 -> 10.0 arası pürüzsüz geri çekilme
-                const mobileZ = 14.5;
-                const targetZ = window.innerWidth < 1050 ? mobileZ : desktopZ;
-
-                const targetCamX = mouse.x * 0.45;
-                const targetCamY = (1.7 - smoothT * 0.15) + (mouse.y * 0.22);
-
-                camera.position.x += (targetCamX - camera.position.x) * 0.06;
-                camera.position.y += (targetCamY - camera.position.y) * 0.06;
+                const targetZ = window.innerWidth < 1050 ? 14.5 : (5.6 + smoothT * 4.4);
+                camera.position.x += ((mouse.x * 0.45) - camera.position.x) * 0.06;
+                camera.position.y += (((1.7 - smoothT * 0.15) + (mouse.y * 0.22)) - camera.position.y) * 0.06;
                 camera.position.z += (targetZ - camera.position.z) * 0.06;
                 camera.lookAt(0, 0.72, -0.35);
-
             } else {
                 camera.position.x += (zoomTargetPos.x - camera.position.x) * 0.08;
                 camera.position.y += (zoomTargetPos.y - camera.position.y) * 0.08;
@@ -1636,7 +1290,6 @@
                 camera.lookAt(zoomTargetPos);
             }
 
-            // Raycasting
             raycaster.setFromCamera(mouse, camera);
             const intersects = raycaster.intersectObjects(screenMeshes);
 
@@ -1655,7 +1308,6 @@
                 hoveredScreen = null;
                 document.body.style.cursor = 'default';
                 tooltip.style.opacity = '0';
-
                 screenMeshes.forEach(m => {
                     m.userData.monitorRoot.scale.lerp(new THREE.Vector3(1, 1, 1), 0.12);
                 });
@@ -1674,3 +1326,12 @@
     </script>
 </body>
 </html>
+"""
+
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html_code)
+
+with zipfile.ZipFile("heronji-toplulugu-github-pages-v4.zip", "w", zipfile.ZIP_DEFLATED) as zf:
+    zf.write("index.html")
+
+print("v4 dosyaları oluşturuldu.")
