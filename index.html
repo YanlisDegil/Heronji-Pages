@@ -10,8 +10,7 @@
     <style>
         :root {
             --bg-deep: #050608;
-            --surface-glass: rgba(13, 15, 20, 0.75);
-            --border-subtle: rgba(255, 255, 255, 0.07);
+            --border-subtle: rgba(255, 255, 255, 0.08);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent: #38bdf8;
@@ -41,13 +40,13 @@
 
         nav {
             position: fixed;
-            top: 28px;
+            top: 24px;
             left: 50%;
             transform: translateX(-50%);
             width: 90%;
             max-width: 1200px;
-            padding: 16px 32px;
-            background: rgba(10, 12, 16, 0.6);
+            padding: 15px 30px;
+            background: rgba(10, 12, 16, 0.72);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-subtle);
@@ -56,7 +55,7 @@
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
         }
 
         .brand {
@@ -86,12 +85,12 @@
         .scroll-container { position: relative; z-index: 10; pointer-events: none; }
 
         .section-room {
-            height: 160vh;
+            height: 165vh;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             align-items: center;
-            padding-bottom: 8vh;
+            padding-bottom: 7vh;
             text-align: center;
         }
 
@@ -102,24 +101,34 @@
             gap: 10px;
             padding: 6px 18px;
             border-radius: 99px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: var(--text-muted);
+            background: rgba(10, 12, 16, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #e2e8f0;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.7rem;
             letter-spacing: 1.5px;
-            margin-bottom: 14px;
-            backdrop-filter: blur(10px);
+            margin-bottom: 12px;
+            backdrop-filter: blur(12px);
         }
 
-        .room-desc { max-width: 480px; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 24px; padding: 0 20px; }
+        .room-desc {
+            max-width: 490px;
+            color: #cbd5e1;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            padding: 8px 20px;
+            background: rgba(5, 6, 8, 0.65);
+            border-radius: 12px;
+            backdrop-filter: blur(8px);
+        }
 
         .scroll-indicator {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
-            color: rgba(255, 255, 255, 0.35);
+            color: rgba(255, 255, 255, 0.6);
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.68rem;
             letter-spacing: 2px;
@@ -128,15 +137,15 @@
         }
 
         @keyframes bounceIndicator {
-            0%, 100% { transform: translateY(0); opacity: 0.4; }
-            50% { transform: translateY(6px); opacity: 0.8; }
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(6px); opacity: 0.95; }
         }
 
         .section-command { height: 220vh; position: relative; }
 
         .command-hud {
             position: sticky;
-            top: 105px;
+            top: 100px;
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -154,9 +163,9 @@
 
         .terminal-pills { pointer-events: auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; max-width: 900px; }
         .terminal-pill {
-            background: rgba(15, 18, 25, 0.85);
+            background: rgba(15, 18, 25, 0.88);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: #e2e8f0;
             padding: 10px 20px;
             border-radius: 12px;
@@ -169,7 +178,7 @@
             align-items: center;
             gap: 8px;
         }
-        .terminal-pill:hover { border-color: rgba(56, 189, 248, 0.4); background: rgba(25, 30, 42, 0.9); transform: translateY(-2px); }
+        .terminal-pill:hover { border-color: rgba(56, 189, 248, 0.5); background: rgba(25, 30, 42, 0.95); transform: translateY(-2px); }
         .terminal-pill.live .dot { width: 6px; height: 6px; border-radius: 50%; background: #34d399; box-shadow: 0 0 8px #34d399; }
         .terminal-pill.wip .dot { width: 6px; height: 6px; border-radius: 50%; background: #fbbf24; }
 
@@ -179,7 +188,7 @@
             pointer-events: auto;
             min-height: 100vh;
             padding: 120px 24px 100px;
-            background: linear-gradient(to bottom, transparent 0%, rgba(5, 6, 8, 0.95) 20%, #050608 100%);
+            background: linear-gradient(to bottom, transparent 0%, rgba(5, 6, 8, 0.96) 20%, #050608 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -187,9 +196,9 @@
 
         .portfolio-grid { max-width: 1320px; width: 100%; display: grid; grid-template-columns: 1.35fr 1fr; gap: 28px; align-items: stretch; }
         .p-panel {
-            background: rgba(13, 15, 22, 0.82);
+            background: rgba(13, 15, 22, 0.86);
             backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 24px;
             padding: 42px 48px;
             box-shadow: 0 40px 80px rgba(0, 0, 0, 0.75);
@@ -204,14 +213,14 @@
             align-items: center;
             padding-bottom: 18px;
             margin-bottom: 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.7rem;
             color: #64748b;
         }
 
         .mac-dots { display: flex; gap: 6px; }
-        .mac-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.12); }
+        .mac-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.14); }
 
         .about-title-wrap { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
         .about-main-name { font-family: 'Syne', sans-serif; font-size: 2.4rem; font-weight: 800; color: #ffffff; }
@@ -228,15 +237,15 @@
         .about-content-split { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 28px; margin-bottom: 28px; }
         .about-bio-text { color: #cbd5e1; line-height: 1.75; font-size: 0.92rem; }
 
-        .tech-stack-card { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 16px; padding: 20px; }
+        .tech-stack-card { background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 20px; }
         .tech-title { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: #64748b; margin-bottom: 12px; text-transform: uppercase; }
         .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-        .t-tag { padding: 6px 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.07); font-size: 0.76rem; color: #e2e8f0; }
+        .t-tag { padding: 6px 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.76rem; color: #e2e8f0; }
 
-        .panel-footer-actions { display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); gap: 14px; flex-wrap: wrap; }
+        .panel-footer-actions { display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.06); gap: 14px; flex-wrap: wrap; }
         .btn-action-primary { padding: 12px 26px; border-radius: 12px; background: #ffffff; color: #050608; font-weight: 600; text-decoration: none; font-size: 0.85rem; transition: all 0.25s ease; }
         .btn-action-primary:hover { background: #38bdf8; box-shadow: 0 0 25px rgba(56, 189, 248, 0.4); }
-        .btn-action-secondary { padding: 12px 22px; border-radius: 12px; background: transparent; border: 1px solid rgba(255, 255, 255, 0.12); color: #cbd5e1; text-decoration: none; font-size: 0.85rem; }
+        .btn-action-secondary { padding: 12px 22px; border-radius: 12px; background: transparent; border: 1px solid rgba(255, 255, 255, 0.14); color: #cbd5e1; text-decoration: none; font-size: 0.85rem; }
 
         .control-list { display: flex; flex-direction: column; gap: 12px; }
         .control-item-row {
@@ -245,18 +254,18 @@
             align-items: center;
             padding: 14px 18px;
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             cursor: pointer;
             transition: all 0.25s ease;
         }
-        .control-item-row:hover { background: rgba(255, 255, 255, 0.05); border-color: rgba(56, 189, 248, 0.3); }
+        .control-item-row:hover { background: rgba(255, 255, 255, 0.06); border-color: rgba(56, 189, 248, 0.35); }
         .control-info { display: flex; align-items: center; gap: 14px; }
         .control-num { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: #64748b; }
         .control-lbl { font-weight: 600; font-size: 0.88rem; color: #f1f5f9; }
 
-        .status-badge-active { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; padding: 4px 10px; border-radius: 6px; background: rgba(52, 211, 153, 0.1); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.25); }
-        .status-badge-wip { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; padding: 4px 10px; border-radius: 6px; background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.25); }
+        .status-badge-active { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; padding: 4px 10px; border-radius: 6px; background: rgba(52, 211, 153, 0.12); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); }
+        .status-badge-wip { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; padding: 4px 10px; border-radius: 6px; background: rgba(251, 191, 36, 0.12); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); }
 
         #portal-curtain {
             position: fixed; inset: 0; background: #050608; z-index: 999; opacity: 0; pointer-events: none;
@@ -268,8 +277,8 @@
         @keyframes spin { to { transform: rotate(360deg); } }
 
         #cursor-cue {
-            position: fixed; pointer-events: none; z-index: 200; background: rgba(15, 18, 25, 0.92); color: #f8fafc;
-            border: 1px solid rgba(56, 189, 248, 0.3); font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+            position: fixed; pointer-events: none; z-index: 200; background: rgba(15, 18, 25, 0.94); color: #f8fafc;
+            border: 1px solid rgba(56, 189, 248, 0.4); font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
             padding: 6px 14px; border-radius: 8px; transform: translate(16px, 16px); opacity: 0; backdrop-filter: blur(10px);
         }
 
@@ -300,8 +309,8 @@
 
     <main class="scroll-container" id="top">
         <section class="section-room">
-            <div class="room-meta">ATELIER ARCHITECTURE // PRO-SETUP</div>
-            <p class="room-desc">Dünyaca ödüllü 3D portfolyo sitelerinin mimari standartlarında, doğrudan odanıza ve sisteminize özel olarak tasarlanmış interaktif çalışma alanı.</p>
+            <div class="room-meta">ATELIER ARCHITECTURE // HERONJI WORKSPACE</div>
+            <p class="room-desc">Orijinal çalışma odanızın ve sistem donanımınızın birebir 3D dijital ikizi. Komuta istasyonuna geçmek için aşağı kaydırın.</p>
             <div class="scroll-indicator">
                 <span>Komuta İstasyonuna Geçmek İçin Kaydırın</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
@@ -399,196 +408,630 @@
     <script>
         const container = document.getElementById('webgl-canvas');
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x050608);
-        scene.fog = new THREE.FogExp2(0x050608, 0.024);
+        scene.background = new THREE.Color(0x0c0e12);
+        scene.fog = new THREE.FogExp2(0x0c0e12, 0.022);
 
-        const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.set(0, 1.85, 5.8);
+        const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(0.15, 1.35, 4.35);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.1;
+        renderer.toneMappingExposure = 1.05;
         container.appendChild(renderer.domElement);
 
-        const ambientLight = new THREE.AmbientLight(0xf8fafc, 0.9);
-        scene.add(ambientLight);
+        // --- IŞIKLANDIRMA ---
+        const hemiLight = new THREE.HemisphereLight(0xfffbeb, 0x1e222d, 0.95);
+        scene.add(hemiLight);
 
-        const spotLight = new THREE.SpotLight(0xfff7ed, 2.6);
-        spotLight.position.set(2, 8, 5);
-        spotLight.castShadow = true;
-        scene.add(spotLight);
+        const roomMainLight = new THREE.DirectionalLight(0xfff7ed, 1.35);
+        roomMainLight.position.set(3, 6, 5);
+        roomMainLight.castShadow = true;
+        roomMainLight.shadow.mapSize.width = 2048;
+        roomMainLight.shadow.mapSize.height = 2048;
+        scene.add(roomMainLight);
 
-        // --- 3D ODA & AHŞAP ÇITALAR ---
+        // Kasa içi RGB ışık kaynağı
+        const pcRgbLight = new THREE.PointLight(0xd946ef, 1.8, 3.2);
+        pcRgbLight.position.set(0.95, 0.55, 0.15);
+        scene.add(pcRgbLight);
+
+        const pcCyanLight = new THREE.PointLight(0x38bdf8, 1.4, 3.0);
+        pcCyanLight.position.set(0.95, 0.25, 0.25);
+        scene.add(pcCyanLight);
+
+        // =========================================================================
+        // 1. BÖLÜM: FOTOĞRAFTAKİ GERÇEK ODA VE BİLGİSAYAR KURULUMU (BİREBİR MODEL)
+        // =========================================================================
         const roomGroup = new THREE.Group();
         scene.add(roomGroup);
 
+        // Malzemeler
+        const creamWallMat = new THREE.MeshStandardMaterial({ color: 0xd6d0c4, roughness: 0.85 });
+        const whiteFurnitureMat = new THREE.MeshStandardMaterial({ color: 0xeae8e3, roughness: 0.35, metalness: 0.05 });
+        const walnutWoodMat = new THREE.MeshStandardMaterial({ color: 0x4a3324, roughness: 0.55, metalness: 0.05 });
+        const chromeMat = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, roughness: 0.2, metalness: 0.9 });
+        const darkBezelMat = new THREE.MeshStandardMaterial({ color: 0x111317, roughness: 0.35, metalness: 0.4 });
+
+        // Arka Duvar & Zemin
+        const backWall = new THREE.Mesh(new THREE.PlaneGeometry(24, 14), creamWallMat);
+        backWall.position.set(0, 2.5, -1.15);
+        backWall.receiveShadow = true;
+        roomGroup.add(backWall);
+
         const floor = new THREE.Mesh(
-            new THREE.PlaneGeometry(50, 50),
-            new THREE.MeshStandardMaterial({ color: 0x07080a, roughness: 0.6 })
+            new THREE.PlaneGeometry(24, 24),
+            new THREE.MeshStandardMaterial({ color: 0x181615, roughness: 0.8 })
         );
         floor.rotation.x = -Math.PI / 2;
-        floor.position.y = -1.35;
+        floor.position.y = -1.25;
         roomGroup.add(floor);
 
-        // Arka Dikey Ahşap Çıtalar
-        const wallGroup = new THREE.Group();
-        wallGroup.position.set(0, 1.5, -2.6);
-        roomGroup.add(wallGroup);
+        // Sol duvardaki çoklu priz ve adaptörler
+        const stripGroup = new THREE.Group();
+        stripGroup.position.set(-1.82, 1.15, -1.1);
+        roomGroup.add(stripGroup);
 
-        const slatMat = new THREE.MeshStandardMaterial({ color: 0x221610, roughness: 0.5 });
-        for (let x = -8; x <= 8; x += 0.42) {
-            const slat = new THREE.Mesh(new THREE.BoxGeometry(0.18, 9, 0.07), slatMat);
-            slat.position.set(x, 0, 0);
-            wallGroup.add(slat);
+        const powerStrip = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.52, 0.07), whiteFurnitureMat);
+        stripGroup.add(powerStrip);
+
+        const wallSocket = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.14, 0.03), whiteFurnitureMat);
+        wallSocket.position.set(0, 0.48, -0.01);
+        stripGroup.add(wallSocket);
+
+        const adapterBlack = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.09, 0.08), darkBezelMat);
+        adapterBlack.position.set(0, 0.12, 0.06);
+        const adapterWhite1 = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.08, 0.07), whiteFurnitureMat);
+        adapterWhite1.position.set(0, -0.02, 0.05);
+        const adapterWhite2 = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.08, 0.07), whiteFurnitureMat);
+        adapterWhite2.position.set(0, -0.15, 0.05);
+        stripGroup.add(adapterBlack, adapterWhite1, adapterWhite2);
+
+        // --- MASA VE ÜST RAFLI KİTAPLIK ÜNİTESİ (Fotoğraftaki Beyaz & Ceviz Mobilya) ---
+        const furnitureGroup = new THREE.Group();
+        roomGroup.add(furnitureGroup);
+
+        // Masa Tablası (Beyaz üst yüzey)
+        const deskTop = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.07, 1.35), whiteFurnitureMat);
+        deskTop.position.set(0.1, 0, -0.35);
+        deskTop.castShadow = true;
+        deskTop.receiveShadow = true;
+        furnitureGroup.add(deskTop);
+
+        // Masa Arka Beyaz Paneli
+        const deskBackPanel = new THREE.Mesh(new THREE.BoxGeometry(3.15, 2.75, 0.05), whiteFurnitureMat);
+        deskBackPanel.position.set(0.1, 0.25, -1.02);
+        deskBackPanel.receiveShadow = true;
+        furnitureGroup.add(deskBackPanel);
+
+        // Sol Yan Ceviz & Beyaz Destek Paneli
+        const leftSidePanel = new THREE.Mesh(new THREE.BoxGeometry(0.06, 2.85, 1.32), whiteFurnitureMat);
+        leftSidePanel.position.set(-1.47, 0.2, -0.35);
+        furnitureGroup.add(leftSidePanel);
+
+        const leftWoodTrim = new THREE.Mesh(new THREE.BoxGeometry(0.28, 1.25, 0.05), walnutWoodMat);
+        leftWoodTrim.position.set(-1.32, -0.62, 0.25);
+        furnitureGroup.add(leftWoodTrim);
+
+        // Sağ Taraftaki 3 Çekmeceli Keson Ünitesi
+        const drawerUnit = new THREE.Mesh(new THREE.BoxGeometry(0.88, 1.22, 1.28), whiteFurnitureMat);
+        drawerUnit.position.set(1.22, -0.64, -0.35);
+        drawerUnit.castShadow = true;
+        furnitureGroup.add(drawerUnit);
+
+        for (let i = 0; i < 3; i++) {
+            const yPos = -0.24 - i * 0.39;
+            const drawerFront = new THREE.Mesh(new THREE.BoxGeometry(0.82, 0.35, 0.03), whiteFurnitureMat);
+            drawerFront.position.set(1.22, yPos, 0.30);
+            furnitureGroup.add(drawerFront);
+
+            const knob = new THREE.Mesh(new THREE.SphereGeometry(0.024, 16, 16), chromeMat);
+            knob.position.set(1.22, yPos, 0.33);
+            furnitureGroup.add(knob);
         }
 
-        // Çalışma Masası
-        const deskGroup = new THREE.Group();
-        roomGroup.add(deskGroup);
+        // Üst Raf ve Dolap Ünitesi (Masa Üstü Kitaplık)
+        const upperShelfBase = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.06, 0.65), whiteFurnitureMat);
+        upperShelfBase.position.set(0.1, 1.48, -0.72);
+        upperShelfBase.castShadow = true;
+        furnitureGroup.add(upperShelfBase);
 
-        const deskTop = new THREE.Mesh(
-            new THREE.BoxGeometry(4.8, 0.11, 1.95),
-            new THREE.MeshStandardMaterial({ color: 0x221610, roughness: 0.4, metalness: 0.1 })
-        );
-        deskTop.position.set(0, -0.055, 0);
-        deskGroup.add(deskTop);
+        // Sol Kapalı Beyaz Üst Dolap
+        const upperCabinet = new THREE.Mesh(new THREE.BoxGeometry(1.42, 0.78, 0.62), whiteFurnitureMat);
+        upperCabinet.position.set(-0.76, 1.90, -0.72);
+        furnitureGroup.add(upperCabinet);
 
-        // Monitör ve Canlı Heronji Arayüz Dokusu
-        function createHeronjiScreenTexture() {
+        // Sağ Kitaplık Bölmesi Ceviz Ara Dikmesi
+        const shelfDivider = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.78, 0.58), walnutWoodMat);
+        shelfDivider.position.set(0.82, 1.90, -0.72);
+        furnitureGroup.add(shelfDivider);
+
+        // Üst Raftaki Kitaplar (Fotoğraftaki Renkli Kitap Dizilimi)
+        const bookColors = [0xd4d4d8, 0x1e293b, 0x15803d, 0x3f2e21, 0x7f1d1d, 0x0f172a, 0xb45309, 0x1d4ed8, 0x4338ca, 0x047857, 0xbe123c, 0xf59e0b];
+        let bookX = -0.01;
+        for (let i = 0; i < 16; i++) {
+            if (i === 7) bookX += 0.26; // Ceviz bölmeyi atla
+            const bw = 0.036 + (i % 3) * 0.012;
+            const bh = 0.44 + (i % 4) * 0.035;
+            const book = new THREE.Mesh(
+                new THREE.BoxGeometry(bw, bh, 0.36),
+                new THREE.MeshStandardMaterial({ color: bookColors[i % bookColors.length], roughness: 0.7 })
+            );
+            book.position.set(bookX, 1.51 + bh / 2, -0.66);
+            book.castShadow = true;
+            furnitureGroup.add(book);
+            bookX += bw + 0.005;
+        }
+
+        // --- BEYAZ MONİTÖR KOLU (VESA ARM) & MONİTÖR (HERONJI EKRANI) ---
+        const monitorArmGroup = new THREE.Group();
+        deskGroup = furnitureGroup;
+        roomGroup.add(monitorArmGroup);
+
+        // Masa Kelepçesi
+        const armClamp = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.08, 0.16), whiteFurnitureMat);
+        armClamp.position.set(-0.32, 0.06, -0.78);
+        monitorArmGroup.add(armClamp);
+
+        // Alt Kol Segmenti
+        const armLower = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.36, 0.06), whiteFurnitureMat);
+        armLower.position.set(-0.36, 0.24, -0.76);
+        armLower.rotation.z = 0.25;
+        armLower.rotation.x = 0.22;
+        monitorArmGroup.add(armLower);
+
+        // Üst Kol Segmenti
+        const armUpper = new THREE.Mesh(new THREE.BoxGeometry(0.055, 0.38, 0.055), whiteFurnitureMat);
+        armUpper.position.set(-0.32, 0.52, -0.68);
+        armUpper.rotation.z = -0.28;
+        monitorArmGroup.add(armUpper);
+
+        // Fotoğraftaki Orijinal HERONJI YouTube Kanal Ekranı Dokusu
+        function createExactHeronjiScreenTexture() {
             const canvas = document.createElement('canvas');
-            canvas.width = 1920;
-            canvas.height = 1080;
+            canvas.width = 1600;
+            canvas.height = 900;
             const ctx = canvas.getContext('2d');
 
-            ctx.fillStyle = '#0e1117';
-            ctx.fillRect(0, 0, 1920, 1080);
+            // Açık tema stüdyo/kanal arka planı (fotoğraftaki gibi beyaz/gri merkez + bulanık yan kenarlar)
+            ctx.fillStyle = '#e5e7eb';
+            ctx.fillRect(0, 0, 1600, 900);
 
-            ctx.fillStyle = '#161922';
-            ctx.fillRect(200, 100, 1520, 240);
+            // Sol ve sağ ambient blur şeritleri (fotoğraftaki görünüm)
+            const leftGrad = ctx.createLinearGradient(0, 0, 480, 0);
+            leftGrad.addColorStop(0, '#78716c');
+            leftGrad.addColorStop(0.5, '#a8a29e');
+            leftGrad.addColorStop(1, '#f3f4f6');
+            ctx.fillStyle = leftGrad;
+            ctx.fillRect(0, 0, 480, 900);
 
-            ctx.fillStyle = '#38bdf8';
+            const rightGrad = ctx.createLinearGradient(1120, 0, 1600, 0);
+            rightGrad.addColorStop(0, '#f3f4f6');
+            rightGrad.addColorStop(0.5, '#9ca3af');
+            rightGrad.addColorStop(1, '#6b7280');
+            ctx.fillStyle = rightGrad;
+            ctx.fillRect(1120, 0, 480, 900);
+
+            // Orta Kanal Paneli (Beyaz Kart)
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(460, 0, 680, 900);
+
+            // Üst Banner Karakter/Logo
+            ctx.fillStyle = '#dc2626';
             ctx.beginPath();
-            ctx.arc(340, 220, 60, 0, Math.PI * 2);
+            ctx.arc(800, 75, 28, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#111827';
+            ctx.fillRect(775, 65, 50, 14);
+
+            // Profil Avatarı (Sol)
+            ctx.fillStyle = '#1f2937';
+            ctx.beginPath();
+            ctx.arc(560, 210, 48, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // HERONJI Başlık & Bilgiler
+            ctx.fillStyle = '#0f172a';
+            ctx.font = '800 36px "Plus Jakarta Sans", sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText('HERONJI', 630, 198);
+
+            ctx.fillStyle = '#64748b';
+            ctx.font = '500 18px "Plus Jakarta Sans", sans-serif';
+            ctx.fillText('@heronji.fx · 1.43 B abone', 630, 228);
+
+            // Butonlar (Analytics & Kanalı düzenle)
+            ctx.fillStyle = '#f1f5f9';
+            ctx.beginPath();
+            ctx.roundRect(500, 310, 280, 42, 20);
+            ctx.roundRect(800, 310, 280, 42, 20);
+            ctx.roundRect(650, 365, 280, 40, 20);
             ctx.fill();
 
-            ctx.font = '800 56px sans-serif';
+            ctx.fillStyle = '#1e293b';
+            ctx.font = '600 16px "Plus Jakarta Sans", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Analytics', 640, 336);
+            ctx.fillText('Kanalı düzenle', 940, 336);
+            ctx.fillText('Topluluk', 790, 390);
+
+            // Sekmeler (Videolar, Shorts, Oynatma listeleri)
+            ctx.fillStyle = '#475569';
+            ctx.font = '600 17px "Plus Jakarta Sans", sans-serif';
+            ctx.fillText('Videolar      Shorts      Oynatma listeleri      Gönderiler', 790, 445);
+
+            // Siyah Aktif Filtre Hapı ("Son yüklenenler")
+            ctx.fillStyle = '#0f172a';
+            ctx.beginPath();
+            ctx.roundRect(500, 472, 195, 36, 10);
+            ctx.fill();
             ctx.fillStyle = '#ffffff';
-            ctx.fillText('HERONJI.FX', 440, 200);
+            ctx.font = '600 15px "Plus Jakarta Sans", sans-serif';
+            ctx.fillText('Son yüklenenler ⌄', 597, 495);
 
-            ctx.font = '500 24px sans-serif';
-            ctx.fillStyle = '#94a3b8';
-            ctx.fillText('Atelier & Command Center · 1.43B Abone', 440, 260);
-
+            // Alt 3 Video / Shorts Kartı (Fotoğraftaki Kırmızı, Mor, Beyaz Kartlar)
+            const cardColors = ['#7f1d1d', '#4c1d95', '#cbd5e1'];
             for (let i = 0; i < 3; i++) {
-                const x = 200 + i * 520;
-                ctx.fillStyle = '#121620';
-                ctx.fillRect(x, 420, 480, 280);
-                ctx.fillStyle = i === 0 ? '#0284c7' : (i === 1 ? '#7c3aed' : '#059669');
-                ctx.fillRect(x + 24, 444, 432, 160);
-                ctx.fillStyle = '#ffffff';
-                ctx.font = '700 22px sans-serif';
-                ctx.fillText(`HERONJI Modül v0.${i+1}`, x + 24, 660);
+                const cx = 500 + i * 200;
+                ctx.fillStyle = cardColors[i];
+                ctx.beginPath();
+                ctx.roundRect(cx, 530, 185, 290, 14);
+                ctx.fill();
             }
 
-            return new THREE.CanvasTexture(canvas);
+            const tex = new THREE.CanvasTexture(canvas);
+            tex.anisotropy = 8;
+            return tex;
         }
 
         const monitorGroup = new THREE.Group();
-        monitorGroup.position.set(-0.35, 0.72, -0.32);
-        deskGroup.add(monitorGroup);
+        monitorGroup.position.set(-0.26, 0.72, -0.58);
+        roomGroup.add(monitorGroup);
 
-        const screenMesh = new THREE.Mesh(
-            new THREE.PlaneGeometry(2.4, 1.38),
-            new THREE.MeshBasicMaterial({ map: createHeronjiScreenTexture() })
+        // Monitör Dış Kasası
+        const monitorChassis = new THREE.Mesh(new THREE.BoxGeometry(1.56, 0.92, 0.045), darkBezelMat);
+        monitorChassis.castShadow = true;
+        monitorGroup.add(monitorChassis);
+
+        // Monitör Ekranı
+        const monitorScreen = new THREE.Mesh(
+            new THREE.PlaneGeometry(1.50, 0.85),
+            new THREE.MeshBasicMaterial({ map: createExactHeronjiScreenTexture() })
         );
-        monitorGroup.add(screenMesh);
+        monitorScreen.position.z = 0.025;
+        monitorGroup.add(monitorScreen);
 
-        // Sağdaki Beyaz RGB Bilgisayar Kasası
-        const pcCase = new THREE.Mesh(
-            new THREE.BoxGeometry(0.75, 0.95, 0.85),
-            new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.2, metalness: 0.75 })
+        // --- SİYAH DESKPAD, BEYAZ RGB KLAVYE & DELİKLİ BEYAZ MOUSE ---
+        const deskpad = new THREE.Mesh(
+            new THREE.BoxGeometry(1.62, 0.008, 0.62),
+            new THREE.MeshStandardMaterial({ color: 0x0f1115, roughness: 0.9 })
         );
-        pcCase.position.set(1.22, 0.65, -0.15);
-        deskGroup.add(pcCase);
+        deskpad.position.set(-0.18, 0.039, -0.05);
+        deskpad.receiveShadow = true;
+        roomGroup.add(deskpad);
 
-        // --- 5'Lİ KOMUTA TERMİNALLERİ (Aşağıdaki Alan) ---
+        // Beyaz Mekanik Klavye
+        const kbGroup = new THREE.Group();
+        kbGroup.position.set(-0.34, 0.055, -0.04);
+        kbGroup.rotation.y = 0.06;
+        roomGroup.add(kbGroup);
+
+        const kbBody = new THREE.Mesh(new THREE.BoxGeometry(0.76, 0.026, 0.26), whiteFurnitureMat);
+        kbBody.castShadow = true;
+        kbGroup.add(kbBody);
+
+        // Klavye RGB Tuş Takımı (Pastel Gökkuşağı Işıltısı)
+        const keyColors = [0xf472b6, 0x38bdf8, 0x34d399, 0xa78bfa, 0xfbbf24];
+        for (let r = 0; r < 5; r++) {
+            for (let c = 0; c < 15; c++) {
+                const key = new THREE.Mesh(
+                    new THREE.BoxGeometry(0.038, 0.014, 0.038),
+                    new THREE.MeshStandardMaterial({
+                        color: 0xffffff,
+                        emissive: keyColors[(r + c) % keyColors.length],
+                        emissiveIntensity: 0.35,
+                        roughness: 0.3
+                    })
+                );
+                key.position.set(-0.33 + c * 0.047, 0.018, -0.09 + r * 0.045);
+                kbGroup.add(key);
+            }
+        }
+
+        // Sağdaki Beyaz Delikli (Honeycomb) Oyuncu Faresi
+        const mouseGroup = new THREE.Group();
+        mouseGroup.position.set(0.32, 0.058, -0.02);
+        mouseGroup.rotation.y = -0.18;
+        roomGroup.add(mouseGroup);
+
+        const mouseBody = new THREE.Mesh(
+            new THREE.BoxGeometry(0.11, 0.038, 0.19),
+            new THREE.MeshStandardMaterial({
+                color: 0xf8fafc,
+                emissive: 0xa855f7,
+                emissiveIntensity: 0.25,
+                roughness: 0.25
+            })
+        );
+        mouseBody.castShadow = true;
+        mouseGroup.add(mouseBody);
+
+        // --- SAĞDAKİ AKVARYUM TİPİ BEYAZ RGB OYUNCU KASASI (7 RGB FANLI) ---
+        const pcGroup = new THREE.Group();
+        pcGroup.position.set(0.95, 0.44, -0.35);
+        pcGroup.rotation.y = -0.22;
+        roomGroup.add(pcGroup);
+
+        // Kasa İçi Siyah Arka Plaka
+        const pcInnerBack = new THREE.Mesh(
+            new THREE.BoxGeometry(0.56, 0.78, 0.68),
+            new THREE.MeshStandardMaterial({ color: 0x111318, roughness: 0.4, metalness: 0.6 })
+        );
+        pcInnerBack.castShadow = true;
+        pcGroup.add(pcInnerBack);
+
+        // Beyaz Dış Çerçeve Direkleri (Akvaryum Kasa İskeleti)
+        const frameThick = 0.035;
+        const topFrame = new THREE.Mesh(new THREE.BoxGeometry(0.60, frameThick, 0.72), whiteFurnitureMat);
+        topFrame.position.y = 0.40;
+        const bottomFrame = new THREE.Mesh(new THREE.BoxGeometry(0.60, 0.05, 0.72), whiteFurnitureMat);
+        bottomFrame.position.y = -0.39;
+        const frontPost = new THREE.Mesh(new THREE.BoxGeometry(frameThick, 0.80, frameThick), whiteFurnitureMat);
+        frontPost.position.set(-0.28, 0, 0.34);
+        const backPost = new THREE.Mesh(new THREE.BoxGeometry(frameThick, 0.80, frameThick), whiteFurnitureMat);
+        backPost.position.set(-0.28, 0, -0.34);
+        const rightWall = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.80, 0.72), whiteFurnitureMat);
+        rightWall.position.set(0.29, 0, 0);
+        pcGroup.add(topFrame, bottomFrame, frontPost, backPost, rightWall);
+
+        // Şeffaf Temperli Cam Paneller
+        const glassMat = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.14,
+            roughness: 0.05,
+            metalness: 0.1
+        });
+        const sideGlass = new THREE.Mesh(new THREE.PlaneGeometry(0.66, 0.74), glassMat);
+        sideGlass.rotation.y = -Math.PI / 2;
+        sideGlass.position.set(-0.29, 0, 0);
+        const frontGlass = new THREE.Mesh(new THREE.PlaneGeometry(0.54, 0.74), glassMat);
+        frontGlass.position.set(0, 0, 0.35);
+        pcGroup.add(sideGlass, frontGlass);
+
+        // RGB Fan Oluşturucu Fonksiyon
+        function createRgbFan(colorHex) {
+            const fanGrp = new THREE.Group();
+            const housing = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.17, 0.03), whiteFurnitureMat);
+            const ring = new THREE.Mesh(
+                new THREE.TorusGeometry(0.068, 0.014, 16, 32),
+                new THREE.MeshBasicMaterial({ color: colorHex })
+            );
+            ring.position.z = 0.018;
+            const hub = new THREE.Mesh(
+                new THREE.CircleGeometry(0.032, 24),
+                new THREE.MeshBasicMaterial({ color: 0x38bdf8 })
+            );
+            hub.position.z = 0.02;
+            fanGrp.add(housing, ring, hub);
+            return fanGrp;
+        }
+
+        // 3 Yan RGB Fan (Dikey)
+        const sideFanColors = [0x38bdf8, 0xe879f9, 0x38bdf8];
+        for (let i = 0; i < 3; i++) {
+            const f = createRgbFan(sideFanColors[i]);
+            f.position.set(0.18, 0.22 - i * 0.21, 0.22);
+            f.rotation.y = -0.35;
+            pcGroup.add(f);
+        }
+
+        // 3 Alt RGB Fan (Yatay Taban)
+        const botFanColors = [0xe879f9, 0x38bdf8, 0xf472b6];
+        for (let i = 0; i < 3; i++) {
+            const f = createRgbFan(botFanColors[i]);
+            f.rotation.x = -Math.PI / 2;
+            f.position.set(-0.04, -0.35, -0.18 + i * 0.20);
+            pcGroup.add(f);
+        }
+
+        // 1 Arka Egzoz RGB Fanı
+        const rearFan = createRgbFan(0xc084fc);
+        rearFan.rotation.y = Math.PI / 2;
+        rearFan.position.set(-0.24, 0.16, -0.22);
+        pcGroup.add(rearFan);
+
+        // Ekran Kartı (GPU) & Beyaz Sıvı Soğutma Pompası + Boruları
+        const gpu = new THREE.Mesh(
+            new THREE.BoxGeometry(0.18, 0.07, 0.44),
+            new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.8, roughness: 0.25 })
+        );
+        gpu.position.set(-0.06, -0.10, 0.02);
+        pcGroup.add(gpu);
+
+        const pumpBlock = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.055, 0.055, 0.05, 24),
+            new THREE.MeshStandardMaterial({ color: 0x0f172a, emissive: 0x38bdf8, emissiveIntensity: 0.4 })
+        );
+        pumpBlock.rotation.z = Math.PI / 2;
+        pumpBlock.position.set(-0.04, 0.14, -0.02);
+        pcGroup.add(pumpBlock);
+
+        // Beyaz Sıvı Soğutma Boruları
+        const tubeCurve1 = new THREE.CatmullRomCurve3([
+            new THREE.Vector3(-0.02, 0.15, 0.02),
+            new THREE.Vector3(0.08, 0.22, 0.15),
+            new THREE.Vector3(0.16, 0.34, 0.22)
+        ]);
+        const tube1 = new THREE.Mesh(new THREE.TubeGeometry(tubeCurve1, 20, 0.011, 8, false), whiteFurnitureMat);
+        pcGroup.add(tube1);
+
+        // =========================================================================
+        // 2. BÖLÜM: MASAYA SAĞLAM BASAN 5'Lİ KOMUTA TERMİNALLERİ (HAVADA DEĞİL!)
+        // =========================================================================
         const commandStationGroup = new THREE.Group();
         commandStationGroup.position.set(0, -11.5, 0);
         scene.add(commandStationGroup);
 
+        // Komuta İstasyonu Zemini ve Koyu Ceviz Kavisli Komuta Masası
+        const cmdFloor = new THREE.Mesh(
+            new THREE.PlaneGeometry(40, 40),
+            new THREE.MeshStandardMaterial({ color: 0x07080b, roughness: 0.5, metalness: 0.2 })
+        );
+        cmdFloor.rotation.x = -Math.PI / 2;
+        cmdFloor.position.y = -1.25;
+        commandStationGroup.add(cmdFloor);
+
+        // Kavisli Komuta Masası Tablası (Tüm 5 monitör bunun üstüne oturur)
+        const commandDesk = new THREE.Mesh(
+            new THREE.CylinderGeometry(7.2, 7.5, 0.14, 48),
+            new THREE.MeshStandardMaterial({ color: 0x2b1b12, roughness: 0.35, metalness: 0.15 })
+        );
+        commandDesk.scale.set(1.05, 1, 0.42);
+        commandDesk.position.set(0, 0.22, 0.35);
+        commandDesk.receiveShadow = true;
+        commandStationGroup.add(commandDesk);
+
+        // Komuta Masası Çelik Taşıyıcı Ayakları
+        const cmdLegMat = new THREE.MeshStandardMaterial({ color: 0x111318, metalness: 0.9, roughness: 0.25 });
+        const cmdLegL = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.36, 1.45, 24), cmdLegMat);
+        cmdLegL.position.set(-3.8, -0.52, 0.35);
+        const cmdLegR = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.36, 1.45, 24), cmdLegMat);
+        cmdLegR.position.set(3.8, -0.52, 0.35);
+        const cmdLegC = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.40, 1.45, 24), cmdLegMat);
+        cmdLegC.position.set(0, -0.52, 0.1);
+        commandStationGroup.add(cmdLegL, cmdLegR, cmdLegC);
+
         const terminalMeshes = [];
         const terminalConfigs = [
-            { name: 'LAB-DEDEKTİFİ', sub: 'MODÜL 01 // AKTİF', url: 'https://lab-dedektifi.vercel.app/', ready: true },
-            { name: 'YANLIŞ DEĞİL', sub: 'MODÜL 02 // W.I.P', url: null, ready: false },
-            { name: 'J.A.R.V.I.S.', sub: 'MODÜL 03 // W.I.P', url: null, ready: false },
-            { name: 'FRIDAY', sub: 'MODÜL 04 // W.I.P', url: null, ready: false },
-            { name: 'ULTRON', sub: 'MODÜL 05 // W.I.P', url: null, ready: false }
+            { name: 'LAB-DEDEKTİFİ', sub: 'MODÜL 01 // AKTİF YAYIN', url: 'https://lab-dedektifi.vercel.app/', ready: true },
+            { name: 'YANLIŞ DEĞİL', sub: 'MODÜL 02 // GELİŞTİRME', url: null, ready: false },
+            { name: 'J.A.R.V.I.S.', sub: 'MODÜL 03 // GELİŞTİRME', url: null, ready: false },
+            { name: 'FRIDAY', sub: 'MODÜL 04 // GELİŞTİRME', url: null, ready: false },
+            { name: 'ULTRON', sub: 'MODÜL 05 // GELİŞTİRME', url: null, ready: false }
         ];
 
-        function createTerminalTex(title, sub, isLocked) {
+        function createTerminalTex(title, sub, isLocked, isReady) {
             const canvas = document.createElement('canvas');
-            canvas.width = 1200;
-            canvas.height = 675;
+            canvas.width = 1280;
+            canvas.height = 720;
             const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#0a0c10';
-            ctx.fillRect(0, 0, 1200, 675);
+
+            const grad = ctx.createLinearGradient(0, 0, 1280, 720);
+            grad.addColorStop(0, '#0a0d14');
+            grad.addColorStop(1, '#131824');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 1280, 720);
 
             if (isLocked) {
-                ctx.fillStyle = 'rgba(239, 68, 68, 0.1)';
-                ctx.fillRect(100, 100, 1000, 475);
-                ctx.font = '800 64px sans-serif';
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.12)';
+                ctx.beginPath();
+                ctx.roundRect(100, 140, 1080, 440, 24);
+                ctx.fill();
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+
+                ctx.font = '800 68px "Plus Jakarta Sans", sans-serif';
                 ctx.fillStyle = '#f87171';
                 ctx.textAlign = 'center';
-                ctx.fillText('HENÜZ HAZIR DEĞİL', 600, 340);
-                ctx.font = '500 24px sans-serif';
-                ctx.fillStyle = '#94a3b8';
-                ctx.fillText('Bu modül şu anda geliştirme aşamasındadır.', 600, 400);
+                ctx.fillText('HENÜZ HAZIR DEĞİL', 640, 340);
+
+                ctx.font = '500 26px "Plus Jakarta Sans", sans-serif';
+                ctx.fillStyle = '#cbd5e1';
+                ctx.fillText('Bu modül şu anda geliştirme aşamasındadır.', 640, 420);
             } else {
-                ctx.fillStyle = '#34d399';
+                ctx.fillStyle = isReady ? '#34d399' : '#fbbf24';
                 ctx.beginPath();
-                ctx.arc(80, 80, 8, 0, Math.PI * 2);
+                ctx.arc(85, 80, 9, 0, Math.PI * 2);
                 ctx.fill();
 
-                ctx.font = '600 22px sans-serif';
+                ctx.font = '600 22px "JetBrains Mono", monospace';
                 ctx.fillStyle = '#94a3b8';
                 ctx.textAlign = 'left';
-                ctx.fillText(sub, 104, 88);
+                ctx.fillText(sub, 110, 88);
 
-                ctx.font = '800 72px sans-serif';
+                ctx.font = '800 76px "Syne", sans-serif';
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign = 'center';
-                ctx.fillText(title, 600, 360);
+                ctx.fillText(title, 640, 360);
 
-                ctx.fillStyle = '#38bdf8';
-                ctx.font = '600 24px sans-serif';
-                ctx.fillText('SİSTEMİ AÇ →', 600, 460);
+                ctx.fillStyle = isReady ? '#38bdf8' : 'rgba(255,255,255,0.08)';
+                ctx.beginPath();
+                ctx.roundRect(450, 460, 380, 62, 14);
+                ctx.fill();
+
+                ctx.fillStyle = isReady ? '#050608' : '#e2e8f0';
+                ctx.font = '700 22px "Plus Jakarta Sans", sans-serif';
+                ctx.fillText(isReady ? 'SİSTEME GİRİŞ YAP →' : 'DURUMU KONTROL ET', 640, 498);
             }
             return new THREE.CanvasTexture(canvas);
         }
 
+        // Her bir terminal monitörünü tabanı + boynu + çerçevesiyle birlikte masanın üstüne (y = 0.29) oturt
         terminalConfigs.forEach((cfg, idx) => {
             const offsetIdx = idx - 2;
-            const angle = offsetIdx * 0.42;
-            const xPos = Math.sin(angle) * 5.85;
-            const zPos = 0.5 - Math.cos(angle) * 1.75;
+            const angle = offsetIdx * 0.39;
+            const xPos = Math.sin(angle) * 5.75;
+            const zPos = 0.35 - Math.cos(angle) * 1.65;
 
-            const defTex = createTerminalTex(cfg.name, cfg.sub, false);
-            const panelGeo = new THREE.PlaneGeometry(1.85, 1.05);
-            const panelMat = new THREE.MeshBasicMaterial({ map: defTex });
-            const mesh = new THREE.Mesh(panelGeo, panelMat);
+            const unitGroup = new THREE.Group();
+            unitGroup.position.set(xPos, 0.29, zPos); // Tam masa üst yüzeyine temas eder!
+            unitGroup.rotation.y = -angle * 0.76;
 
-            mesh.position.set(xPos, 1.0, zPos);
-            mesh.rotation.y = -angle * 0.78;
+            // 1. Ağır Metal Monitör Tabanı (Masanın üstüne basan ayak)
+            const basePlate = new THREE.Mesh(
+                new THREE.BoxGeometry(0.68, 0.03, 0.42),
+                cmdLegMat
+            );
+            basePlate.position.set(0, 0.015, 0);
+            unitGroup.add(basePlate);
 
-            mesh.userData = { config: cfg, defaultTexture: defTex, lockedTexture: null };
-            commandStationGroup.add(mesh);
-            terminalMeshes.push(mesh);
+            // 2. Monitör Taşıyıcı Boyun Standı
+            const neckStand = new THREE.Mesh(
+                new THREE.BoxGeometry(0.11, 0.56, 0.07),
+                cmdLegMat
+            );
+            neckStand.position.set(0, 0.29, -0.08);
+            unitGroup.add(neckStand);
+
+            // 3. Monitör Dış Kasası
+            const monitorBox = new THREE.Mesh(
+                new THREE.BoxGeometry(1.88, 1.08, 0.05),
+                darkBezelMat
+            );
+            monitorBox.position.set(0, 0.94, 0);
+            monitorBox.castShadow = true;
+            unitGroup.add(monitorBox);
+
+            // 4. Monitör Ekranı
+            const defTex = createTerminalTex(cfg.name, cfg.sub, false, cfg.ready);
+            const screenPlane = new THREE.Mesh(
+                new THREE.PlaneGeometry(1.80, 1.01),
+                new THREE.MeshBasicMaterial({ map: defTex })
+            );
+            screenPlane.position.set(0, 0.94, 0.028);
+            screenPlane.userData = {
+                config: cfg,
+                defaultTexture: defTex,
+                lockedTexture: null,
+                unitRoot: unitGroup
+            };
+            unitGroup.add(screenPlane);
+
+            commandStationGroup.add(unitGroup);
+            terminalMeshes.push(screenPlane);
         });
 
-        // --- SCROLL & ANİMASYON ---
+        // =========================================================================
+        // 3. SCROLL, KAMERA VE ETKİLEŞİM KONTROLÜ
+        // =========================================================================
         let scrollProgress = 0;
         let targetScrollProgress = 0;
         let isZooming = false;
@@ -612,34 +1055,34 @@
             cursorCue.style.top = e.clientY + 'px';
         });
 
-        window.addEventListener('click', () => {
-            if (hoveredMesh && !isZooming) {
-                const cfg = hoveredMesh.userData.config;
-                if (cfg.ready && cfg.url) {
-                    isZooming = true;
-                    hoveredMesh.getWorldPosition(zoomTarget);
-                    document.getElementById('portal-curtain').classList.add('active');
-                    setTimeout(() => { window.location.href = cfg.url; }, 1000);
-                } else {
-                    if (!hoveredMesh.userData.lockedTexture) {
-                        hoveredMesh.userData.lockedTexture = createTerminalTex(cfg.name, '', true);
-                    }
-                    hoveredMesh.material.map = hoveredMesh.userData.lockedTexture;
-                    hoveredMesh.material.needsUpdate = true;
-                    setTimeout(() => {
-                        hoveredMesh.material.map = hoveredMesh.userData.defaultTexture;
-                        hoveredMesh.material.needsUpdate = true;
-                    }, 3000);
+        function handleTerminalAction(mesh) {
+            if (!mesh || isZooming) return;
+            const cfg = mesh.userData.config;
+            if (cfg.ready && cfg.url) {
+                isZooming = true;
+                mesh.getWorldPosition(zoomTarget);
+                document.getElementById('portal-curtain').classList.add('active');
+                setTimeout(() => { window.location.href = cfg.url; }, 1000);
+            } else {
+                if (!mesh.userData.lockedTexture) {
+                    mesh.userData.lockedTexture = createTerminalTex(cfg.name, '', true, false);
                 }
+                mesh.material.map = mesh.userData.lockedTexture;
+                mesh.material.needsUpdate = true;
+                setTimeout(() => {
+                    mesh.material.map = mesh.userData.defaultTexture;
+                    mesh.material.needsUpdate = true;
+                }, 3500);
             }
+        }
+
+        window.addEventListener('click', () => {
+            if (hoveredMesh) handleTerminalAction(hoveredMesh);
         });
 
         window.triggerTerminalByIndex = function(idx) {
             const target = terminalMeshes[idx];
-            if (target) {
-                hoveredMesh = target;
-                window.dispatchEvent(new Event('click'));
-            }
+            if (target) handleTerminalAction(target);
         };
 
         function animate() {
@@ -647,7 +1090,9 @@
             scrollProgress += (targetScrollProgress - scrollProgress) * 0.08;
 
             if (!isZooming) {
-                const smoothT = Math.min(Math.max(scrollProgress / 0.42, 0), 1);
+                const tFactor = Math.min(Math.max(scrollProgress / 0.42, 0), 1);
+                const smoothT = tFactor * tFactor * (3 - 2 * tFactor);
+
                 roomGroup.position.y = smoothT * 11.5;
                 commandStationGroup.position.y = -11.5 + (smoothT * 11.5);
 
@@ -657,8 +1102,21 @@
                     commandHud.classList.remove('active');
                 }
 
-                camera.position.z = 5.6 + smoothT * 4.4;
-                camera.lookAt(0, 0.72, -0.35);
+                // İlk bölümde senin gerçek bilgisayar masana odaklı kamera, kaydırınca komuta masasına açılan geniş açı
+                const startCamX = 0.12 + mouse.x * 0.25;
+                const startCamY = 1.15 + mouse.y * 0.15;
+                const startCamZ = 3.65;
+
+                const endCamX = mouse.x * 0.45;
+                const endCamY = 1.65 + mouse.y * 0.2;
+                const endCamZ = window.innerWidth < 1050 ? 13.5 : 9.6;
+
+                camera.position.x += ((startCamX * (1 - smoothT) + endCamX * smoothT) - camera.position.x) * 0.08;
+                camera.position.y += ((startCamY * (1 - smoothT) + endCamY * smoothT) - camera.position.y) * 0.08;
+                camera.position.z += ((startCamZ * (1 - smoothT) + endCamZ * smoothT) - camera.position.z) * 0.08;
+
+                const lookY = 0.62 * (1 - smoothT) + 0.95 * smoothT;
+                camera.lookAt(0.08 * (1 - smoothT), lookY, -0.35);
             } else {
                 camera.position.lerp(new THREE.Vector3(zoomTarget.x, zoomTarget.y, zoomTarget.z + 0.5), 0.1);
                 camera.lookAt(zoomTarget);
@@ -672,10 +1130,18 @@
                 document.body.style.cursor = 'pointer';
                 cursorCue.style.opacity = '1';
                 cursorCue.textContent = hoveredMesh.userData.config.ready ? 'LAB-DEDEKTİFİNE GİR' : 'DURUMU KONTROL ET';
+
+                terminalMeshes.forEach(m => {
+                    const sc = (m === hoveredMesh) ? 1.04 : 1.0;
+                    m.userData.unitRoot.scale.lerp(new THREE.Vector3(sc, sc, sc), 0.12);
+                });
             } else {
                 hoveredMesh = null;
                 document.body.style.cursor = 'default';
                 cursorCue.style.opacity = '0';
+                terminalMeshes.forEach(m => {
+                    m.userData.unitRoot.scale.lerp(new THREE.Vector3(1, 1, 1), 0.12);
+                });
             }
 
             renderer.render(scene, camera);
