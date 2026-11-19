@@ -47,7 +47,7 @@
             width: 90%;
             max-width: 1200px;
             padding: 16px 32px;
-            background: rgba(10, 12, 16, 0.75);
+            background: rgba(10, 12, 16, 0.6);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-subtle);
@@ -413,15 +413,15 @@
         renderer.toneMappingExposure = 1.1;
         container.appendChild(renderer.domElement);
 
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+        const ambientLight = new THREE.AmbientLight(0xf8fafc, 0.9);
         scene.add(ambientLight);
 
-        const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
-        dirLight.position.set(5, 10, 7);
-        dirLight.castShadow = true;
-        scene.add(dirLight);
+        const spotLight = new THREE.SpotLight(0xfff7ed, 2.6);
+        spotLight.position.set(2, 8, 5);
+        spotLight.castShadow = true;
+        scene.add(spotLight);
 
-        // Oda ve Masa Grubu
+        // --- 3D ODA & AHŞAP ÇITALAR ---
         const roomGroup = new THREE.Group();
         scene.add(roomGroup);
 
@@ -433,54 +433,88 @@
         floor.position.y = -1.35;
         roomGroup.add(floor);
 
-        // Masa
+        // Arka Dikey Ahşap Çıtalar
+        const wallGroup = new THREE.Group();
+        wallGroup.position.set(0, 1.5, -2.6);
+        roomGroup.add(wallGroup);
+
+        const slatMat = new THREE.MeshStandardMaterial({ color: 0x221610, roughness: 0.5 });
+        for (let x = -8; x <= 8; x += 0.42) {
+            const slat = new THREE.Mesh(new THREE.BoxGeometry(0.18, 9, 0.07), slatMat);
+            slat.position.set(x, 0, 0);
+            wallGroup.add(slat);
+        }
+
+        // Çalışma Masası
+        const deskGroup = new THREE.Group();
+        roomGroup.add(deskGroup);
+
         const deskTop = new THREE.Mesh(
             new THREE.BoxGeometry(4.8, 0.11, 1.95),
-            new THREE.MeshStandardMaterial({ color: 0x221610, roughness: 0.4 })
+            new THREE.MeshStandardMaterial({ color: 0x221610, roughness: 0.4, metalness: 0.1 })
         );
         deskTop.position.set(0, -0.055, 0);
-        roomGroup.add(deskTop);
+        deskGroup.add(deskTop);
 
-        // Monitör ve Ekran Dokusu
-        function createScreenTexture() {
+        // Monitör ve Canlı Heronji Arayüz Dokusu
+        function createHeronjiScreenTexture() {
             const canvas = document.createElement('canvas');
-            canvas.width = 1024;
-            canvas.height = 576;
+            canvas.width = 1920;
+            canvas.height = 1080;
             const ctx = canvas.getContext('2d');
+
             ctx.fillStyle = '#0e1117';
-            ctx.fillRect(0, 0, 1024, 576);
+            ctx.fillRect(0, 0, 1920, 1080);
+
+            ctx.fillStyle = '#161922';
+            ctx.fillRect(200, 100, 1520, 240);
 
             ctx.fillStyle = '#38bdf8';
-            ctx.font = 'bold 64px sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillText('HERONJI.FX', 512, 220);
+            ctx.beginPath();
+            ctx.arc(340, 220, 60, 0, Math.PI * 2);
+            ctx.fill();
 
+            ctx.font = '800 56px sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('HERONJI.FX', 440, 200);
+
+            ctx.font = '500 24px sans-serif';
             ctx.fillStyle = '#94a3b8';
-            ctx.font = '28px sans-serif';
-            ctx.fillText('Atelier & Command Center', 512, 290);
+            ctx.fillText('Atelier & Command Center · 1.43B Abone', 440, 260);
+
+            for (let i = 0; i < 3; i++) {
+                const x = 200 + i * 520;
+                ctx.fillStyle = '#121620';
+                ctx.fillRect(x, 420, 480, 280);
+                ctx.fillStyle = i === 0 ? '#0284c7' : (i === 1 ? '#7c3aed' : '#059669');
+                ctx.fillRect(x + 24, 444, 432, 160);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '700 22px sans-serif';
+                ctx.fillText(`HERONJI Modül v0.${i+1}`, x + 24, 660);
+            }
 
             return new THREE.CanvasTexture(canvas);
         }
 
         const monitorGroup = new THREE.Group();
         monitorGroup.position.set(-0.35, 0.72, -0.32);
-        roomGroup.add(monitorGroup);
+        deskGroup.add(monitorGroup);
 
         const screenMesh = new THREE.Mesh(
             new THREE.PlaneGeometry(2.4, 1.38),
-            new THREE.MeshBasicMaterial({ map: createScreenTexture() })
+            new THREE.MeshBasicMaterial({ map: createHeronjiScreenTexture() })
         );
         monitorGroup.add(screenMesh);
 
-        // PC Kasası (Sağda)
+        // Sağdaki Beyaz RGB Bilgisayar Kasası
         const pcCase = new THREE.Mesh(
             new THREE.BoxGeometry(0.75, 0.95, 0.85),
-            new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.2, metalness: 0.8 })
+            new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.2, metalness: 0.75 })
         );
         pcCase.position.set(1.22, 0.65, -0.15);
-        roomGroup.add(pcCase);
+        deskGroup.add(pcCase);
 
-        // Komuta İstasyonları Grubu (Aşağıda)
+        // --- 5'Lİ KOMUTA TERMİNALLERİ (Aşağıdaki Alan) ---
         const commandStationGroup = new THREE.Group();
         commandStationGroup.position.set(0, -11.5, 0);
         scene.add(commandStationGroup);
@@ -496,21 +530,42 @@
 
         function createTerminalTex(title, sub, isLocked) {
             const canvas = document.createElement('canvas');
-            canvas.width = 1024;
-            canvas.height = 576;
+            canvas.width = 1200;
+            canvas.height = 675;
             const ctx = canvas.getContext('2d');
             ctx.fillStyle = '#0a0c10';
-            ctx.fillRect(0, 0, 1024, 576);
+            ctx.fillRect(0, 0, 1200, 675);
 
-            ctx.fillStyle = isLocked ? '#f87171' : '#34d399';
-            ctx.font = 'bold 36px sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillText(title, 512, 240);
+            if (isLocked) {
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.1)';
+                ctx.fillRect(100, 100, 1000, 475);
+                ctx.font = '800 64px sans-serif';
+                ctx.fillStyle = '#f87171';
+                ctx.textAlign = 'center';
+                ctx.fillText('HENÜZ HAZIR DEĞİL', 600, 340);
+                ctx.font = '500 24px sans-serif';
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText('Bu modül şu anda geliştirme aşamasındadır.', 600, 400);
+            } else {
+                ctx.fillStyle = '#34d399';
+                ctx.beginPath();
+                ctx.arc(80, 80, 8, 0, Math.PI * 2);
+                ctx.fill();
 
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = '22px sans-serif';
-            ctx.fillText(isLocked ? 'HENÜZ HAZIR DEĞİL' : sub, 512, 310);
+                ctx.font = '600 22px sans-serif';
+                ctx.fillStyle = '#94a3b8';
+                ctx.textAlign = 'left';
+                ctx.fillText(sub, 104, 88);
 
+                ctx.font = '800 72px sans-serif';
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign = 'center';
+                ctx.fillText(title, 600, 360);
+
+                ctx.fillStyle = '#38bdf8';
+                ctx.font = '600 24px sans-serif';
+                ctx.fillText('SİSTEMİ AÇ →', 600, 460);
+            }
             return new THREE.CanvasTexture(canvas);
         }
 
@@ -521,7 +576,7 @@
             const zPos = 0.5 - Math.cos(angle) * 1.75;
 
             const defTex = createTerminalTex(cfg.name, cfg.sub, false);
-            const panelGeo = new THREE.PlaneGeometry(1.8, 1.0);
+            const panelGeo = new THREE.PlaneGeometry(1.85, 1.05);
             const panelMat = new THREE.MeshBasicMaterial({ map: defTex });
             const mesh = new THREE.Mesh(panelGeo, panelMat);
 
@@ -533,7 +588,7 @@
             terminalMeshes.push(mesh);
         });
 
-        // Scroll ve Animasyon Kontrolü
+        // --- SCROLL & ANİMASYON ---
         let scrollProgress = 0;
         let targetScrollProgress = 0;
         let isZooming = false;
@@ -583,7 +638,7 @@
             const target = terminalMeshes[idx];
             if (target) {
                 hoveredMesh = target;
-                target.dispatchEvent({ type: 'click' });
+                window.dispatchEvent(new Event('click'));
             }
         };
 
