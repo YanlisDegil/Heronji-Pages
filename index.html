@@ -1,24 +1,20 @@
-import zipfile
-
-html_code = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HERONJI TOPLULUĞU | Komuta Merkezi</title>
+    <title>HERONJI.FX | Atelier & Command Center</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-obsidian: #07080a;
-            --surface-glass: rgba(16, 18, 23, 0.75);
-            --border-subtle: rgba(255, 255, 255, 0.08);
-            --text-primary: #f4f4f6;
-            --text-secondary: #9ca3af;
-            --accent-amber: #d97706;
-            --accent-emerald: #10b981;
-            --accent-crimson: #ef4444;
+            --bg-deep: #050608;
+            --surface-glass: rgba(13, 15, 20, 0.75);
+            --border-subtle: rgba(255, 255, 255, 0.07);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
         }
 
         * {
@@ -29,20 +25,19 @@ html_code = """<!DOCTYPE html>
 
         html {
             scroll-behavior: smooth;
-            background-color: var(--bg-obsidian);
-            color: var(--text-primary);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
         }
 
         body {
-            background-color: var(--bg-obsidian);
+            background-color: var(--bg-deep);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 3D WebGL Sahnesi */
-        #webgl-container {
+        #webgl-canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -52,32 +47,31 @@ html_code = """<!DOCTYPE html>
             pointer-events: auto;
         }
 
-        /* Üst Navigasyon */
         nav {
             position: fixed;
-            top: 24px;
+            top: 28px;
             left: 50%;
             transform: translateX(-50%);
-            width: 92%;
-            max-width: 1280px;
-            padding: 14px 32px;
-            background: rgba(12, 13, 17, 0.65);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            width: 90%;
+            max-width: 1200px;
+            padding: 16px 32px;
+            background: rgba(10, 12, 16, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-subtle);
             border-radius: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.65);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         }
 
         .brand {
             font-family: 'Syne', sans-serif;
             font-weight: 800;
-            font-size: 1.1rem;
-            letter-spacing: 2px;
+            font-size: 1rem;
+            letter-spacing: 2.5px;
             color: #ffffff;
             text-decoration: none;
             display: flex;
@@ -89,7 +83,8 @@ html_code = """<!DOCTYPE html>
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background-color: #e5e7eb;
+            background-color: #38bdf8;
+            box-shadow: 0 0 10px #38bdf8;
         }
 
         .nav-links {
@@ -99,89 +94,86 @@ html_code = """<!DOCTYPE html>
         }
 
         .nav-links a {
-            color: var(--text-secondary);
+            color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 500;
-            letter-spacing: 0.4px;
-            transition: color 0.25s ease;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
         }
 
         .nav-links a:hover {
             color: #ffffff;
         }
 
-        /* Kaydırma Akışı */
-        .scroll-track {
+        .scroll-container {
             position: relative;
             z-index: 10;
             pointer-events: none;
         }
 
-        /* Bölüm 1: Gerçek Oda ve Masanızın Olduğu Hero Sahnesi */
-        .section-hero {
-            height: 150vh;
+        .section-room {
+            height: 160vh;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             align-items: center;
-            padding-bottom: 9vh;
+            padding-bottom: 8vh;
             text-align: center;
         }
 
-        .hero-meta {
+        .room-meta {
             pointer-events: auto;
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            padding: 6px 16px;
+            padding: 6px 18px;
             border-radius: 99px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            color: #d1d5db;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             letter-spacing: 1.5px;
             margin-bottom: 14px;
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(10px);
         }
 
-        .hero-sub {
-            max-width: 540px;
-            color: var(--text-secondary);
-            font-size: 0.94rem;
-            line-height: 1.65;
+        .room-desc {
+            max-width: 480px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
             margin-bottom: 24px;
             padding: 0 20px;
         }
 
-        .scroll-cue {
+        .scroll-indicator {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.35);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            letter-spacing: 1.5px;
+            font-size: 0.68rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            animation: subtlePulse 2.4s infinite ease-in-out;
+            animation: bounceIndicator 2.5s infinite ease-in-out;
         }
 
-        @keyframes subtlePulse {
-            0%, 100% { transform: translateY(0); opacity: 0.45; }
-            50% { transform: translateY(6px); opacity: 0.85; }
+        @keyframes bounceIndicator {
+            0%, 100% { transform: translateY(0); opacity: 0.4; }
+            50% { transform: translateY(6px); opacity: 0.8; }
         }
 
-        /* Bölüm 2: 5'li Oval Masa & Proje Terminalleri */
-        .section-projects {
-            height: 230vh;
+        .section-command {
+            height: 220vh;
             position: relative;
         }
 
-        .projects-hud {
+        .command-hud {
             position: sticky;
-            top: 98px;
+            top: 105px;
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -189,107 +181,96 @@ html_code = """<!DOCTYPE html>
             text-align: center;
             padding: 0 20px;
             opacity: 0;
-            transform: translateY(16px);
-            transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .projects-hud.visible {
+        .command-hud.active {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .projects-hud h2 {
+        .command-hud h2 {
             font-family: 'Syne', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: 2px;
             margin-bottom: 6px;
             color: #ffffff;
         }
 
-        .projects-hud p {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            margin-bottom: 16px;
+        .command-hud p {
+            color: var(--text-muted);
+            font-size: 0.84rem;
+            margin-bottom: 18px;
         }
 
-        .project-pills {
+        .terminal-pills {
             pointer-events: auto;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
-            max-width: 960px;
+            gap: 12px;
+            max-width: 900px;
         }
 
-        .pill-btn {
-            background: rgba(18, 20, 26, 0.82);
+        .terminal-pill {
+            background: rgba(15, 18, 25, 0.85);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #e5e7eb;
-            padding: 9px 18px;
-            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #e2e8f0;
+            padding: 10px 20px;
+            border-radius: 12px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
+            font-size: 0.74rem;
             font-weight: 500;
             letter-spacing: 0.8px;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .pill-btn:hover {
-            border-color: rgba(255, 255, 255, 0.35);
-            background: rgba(30, 33, 42, 0.9);
+        .terminal-pill:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            background: rgba(25, 30, 42, 0.9);
             transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.1);
         }
 
-        .pill-btn.active-project .dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--accent-emerald);
-        }
+        .terminal-pill.live .dot { width: 6px; height: 6px; border-radius: 50%; background: #34d399; box-shadow: 0 0 8px #34d399; }
+        .terminal-pill.wip .dot { width: 6px; height: 6px; border-radius: 50%; background: #fbbf24; }
 
-        .pill-btn.locked-project .dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--accent-amber);
-        }
-
-        /* Bölüm 3: Yatay Geniş Ekran (Ultrawide) İkili Mimari: Solda Hakkımda, Sağda Kontrol Merkezi */
-        .section-about {
+        .section-portfolio {
             position: relative;
             z-index: 20;
             pointer-events: auto;
             min-height: 100vh;
-            padding: 110px 24px 90px;
-            background: linear-gradient(to bottom, transparent 0%, rgba(7, 8, 10, 0.96) 15%, #07080a 100%);
+            padding: 120px 24px 100px;
+            background: linear-gradient(to bottom, transparent 0%, rgba(5, 6, 8, 0.95) 20%, #050608 100%);
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .widescreen-console {
-            max-width: 1360px;
+        .portfolio-grid {
+            max-width: 1320px;
             width: 100%;
             display: grid;
             grid-template-columns: 1.35fr 1fr;
-            gap: 24px;
+            gap: 28px;
             align-items: stretch;
         }
 
-        .console-panel {
-            background: rgba(15, 17, 22, 0.82);
-            backdrop-filter: blur(28px);
-            -webkit-backdrop-filter: blur(28px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 40px 44px;
-            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8);
+        .p-panel {
+            background: rgba(13, 15, 22, 0.82);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 24px;
+            padding: 42px 48px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.75);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -297,32 +278,32 @@ html_code = """<!DOCTYPE html>
             overflow: hidden;
         }
 
-        .panel-topbar {
+        .panel-header-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding-bottom: 18px;
             margin-bottom: 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            color: #6b7280;
+            font-size: 0.7rem;
+            color: #64748b;
             letter-spacing: 1.2px;
         }
 
-        .window-dots {
+        .mac-dots {
             display: flex;
             gap: 6px;
         }
 
-        .window-dots span {
+        .mac-dots span {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.12);
         }
 
-        .about-header {
+        .about-title-wrap {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
@@ -331,182 +312,182 @@ html_code = """<!DOCTYPE html>
             gap: 12px;
         }
 
-        .about-title {
+        .about-main-name {
             font-family: 'Syne', sans-serif;
-            font-size: 2.3rem;
+            font-size: 2.4rem;
             font-weight: 800;
             color: #ffffff;
             letter-spacing: -0.5px;
         }
 
-        .about-role {
+        .about-role-tag {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.78rem;
-            color: #9ca3af;
-            padding: 5px 12px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.07);
+            font-size: 0.76rem;
+            color: #38bdf8;
+            padding: 6px 14px;
+            border-radius: 8px;
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.2);
         }
 
-        .about-body-horizontal {
+        .about-content-split {
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
+            grid-template-columns: 1.25fr 0.75fr;
             gap: 28px;
             margin-bottom: 28px;
         }
 
-        .about-text {
-            color: #b4bac4;
+        .about-bio-text {
+            color: #cbd5e1;
             line-height: 1.75;
-            font-size: 0.94rem;
+            font-size: 0.92rem;
         }
 
-        .skills-box {
-            background: rgba(0, 0, 0, 0.28);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 14px;
-            padding: 18px;
+        .tech-stack-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 20px;
         }
 
-        .skills-box-title {
+        .tech-title {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: #6b7280;
+            font-size: 0.68rem;
+            color: #64748b;
             letter-spacing: 1.2px;
             margin-bottom: 12px;
             text-transform: uppercase;
         }
 
-        .skills-list {
+        .tech-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
         }
 
-        .skill-tag {
-            padding: 6px 11px;
-            border-radius: 6px;
+        .t-tag {
+            padding: 6px 12px;
+            border-radius: 8px;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.07);
-            font-size: 0.78rem;
-            color: #e5e7eb;
+            font-size: 0.76rem;
+            color: #e2e8f0;
             font-weight: 500;
         }
 
-        .about-footer {
+        .panel-footer-actions {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             flex-wrap: wrap;
             gap: 14px;
         }
 
-        .btn-solid {
-            padding: 11px 24px;
-            border-radius: 10px;
-            background: #f4f4f6;
-            color: #07080a;
+        .btn-action-primary {
+            padding: 12px 26px;
+            border-radius: 12px;
+            background: #ffffff;
+            color: #050608;
             font-weight: 600;
             text-decoration: none;
-            font-size: 0.86rem;
+            font-size: 0.85rem;
             transition: all 0.25s ease;
         }
 
-        .btn-solid:hover {
-            background: #ffffff;
+        .btn-action-primary:hover {
+            background: #38bdf8;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
             transform: translateY(-2px);
         }
 
-        .btn-outline {
-            padding: 11px 22px;
-            border-radius: 10px;
+        .btn-action-secondary {
+            padding: 12px 22px;
+            border-radius: 12px;
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            color: #d1d5db;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #cbd5e1;
             font-weight: 500;
             text-decoration: none;
-            font-size: 0.86rem;
+            font-size: 0.85rem;
             transition: all 0.25s ease;
         }
 
-        .btn-outline:hover {
-            border-color: rgba(255, 255, 255, 0.35);
+        .btn-action-secondary:hover {
+            border-color: rgba(255, 255, 255, 0.3);
             color: #ffffff;
         }
 
-        .control-grid {
+        .control-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-        }
-
-        .control-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 13px 16px;
-            border-radius: 11px;
-            background: rgba(255, 255, 255, 0.025);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: background 0.2s ease, border-color 0.2s ease;
-            cursor: pointer;
-        }
-
-        .control-row:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.12);
-        }
-
-        .control-info {
-            display: flex;
-            align-items: center;
             gap: 12px;
         }
 
-        .control-idx {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            color: #6b7280;
+        .control-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.25s ease;
+            cursor: pointer;
         }
 
-        .control-name {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.88rem;
+        .control-item-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(56, 189, 248, 0.3);
+            transform: translateX(4px);
+        }
+
+        .control-item-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .control-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: #64748b;
+        }
+
+        .control-lbl {
             font-weight: 600;
-            color: #f3f4f6;
+            font-size: 0.88rem;
+            color: #f1f5f9;
             letter-spacing: 0.3px;
         }
 
-        .status-pill-live {
+        .status-badge-active {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.68rem;
             padding: 4px 10px;
             border-radius: 6px;
-            background: rgba(16, 185, 129, 0.12);
+            background: rgba(52, 211, 153, 0.1);
             color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.28);
+            border: 1px solid rgba(52, 211, 153, 0.25);
             font-weight: 600;
         }
 
-        .status-pill-wip {
+        .status-badge-wip {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.68rem;
             padding: 4px 10px;
             border-radius: 6px;
-            background: rgba(217, 119, 6, 0.12);
+            background: rgba(251, 191, 36, 0.1);
             color: #fbbf24;
-            border: 1px solid rgba(217, 119, 6, 0.28);
+            border: 1px solid rgba(251, 191, 36, 0.25);
             font-weight: 600;
         }
 
-        /* Sinematik Geçiş Perdesi */
-        #portal-overlay {
+        #portal-curtain {
             position: fixed;
             inset: 0;
-            background: #07080a;
+            background: #050608;
             z-index: 999;
             opacity: 0;
             pointer-events: none;
@@ -514,221 +495,214 @@ html_code = """<!DOCTYPE html>
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        #portal-overlay.active {
+        #portal-curtain.active {
             opacity: 1;
             pointer-events: auto;
         }
 
-        .portal-loader {
-            font-family: 'JetBrains Mono', monospace;
-            color: #e5e7eb;
-            font-size: 0.95rem;
-            letter-spacing: 2px;
-            margin-top: 18px;
+        .portal-spinner {
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #38bdf8;
+            border-radius: 50%;
+            animation: spinCurtain 0.7s linear infinite;
         }
 
-        /* Özel İmleç İpucu */
-        #cursor-tooltip {
+        .portal-text {
+            font-family: 'JetBrains Mono', monospace;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-top: 20px;
+        }
+
+        @keyframes spinCurtain { to { transform: rotate(360deg); } }
+
+        #cursor-cue {
             position: fixed;
             pointer-events: none;
             z-index: 200;
-            background: rgba(18, 20, 26, 0.94);
-            color: #f3f4f6;
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(15, 18, 25, 0.92);
+            color: #f8fafc;
+            border: 1px solid rgba(56, 189, 248, 0.3);
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.68rem;
             font-weight: 500;
-            letter-spacing: 0.8px;
-            padding: 6px 12px;
-            border-radius: 6px;
-            transform: translate(14px, 14px);
+            letter-spacing: 1px;
+            padding: 6px 14px;
+            border-radius: 8px;
+            transform: translate(16px, 16px);
             opacity: 0;
             transition: opacity 0.15s ease;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.75);
-            backdrop-flag: blur(8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
         }
 
         @media (max-width: 1024px) {
-            .widescreen-console {
-                grid-template-columns: 1fr;
-            }
-            .about-body-horizontal {
-                grid-template-columns: 1fr;
-            }
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .about-content-split { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 3D WebGL Sahne -->
-    <div id="webgl-container"></div>
+    <div id="webgl-canvas"></div>
+    <div id="cursor-cue">SİSTEME BAĞLAN</div>
 
-    <!-- İmleç İpucu -->
-    <div id="cursor-tooltip">SİSTEME GİR</div>
-
-    <!-- Geçiş Perdesi -->
-    <div id="portal-overlay">
-        <div style="width: 38px; height: 38px; border: 2px solid rgba(255,255,255,0.12); border-top-color: #ffffff; border-radius: 50%; animation: spin 0.75s linear infinite;"></div>
-        <div class="portal-loader">LAB-DEDEKTİFİ BAĞLANTISI KURULUYOR...</div>
+    <div id="portal-curtain">
+        <div class="portal-spinner"></div>
+        <div class="portal-text">LAB-DEDEKTİFİ BAĞLANTISI KURULUYOR...</div>
     </div>
-    <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
 
-    <!-- Üst Navigasyon -->
     <nav>
         <a href="#top" class="brand"><span class="brand-dot"></span>HERONJI.FX</a>
         <div class="nav-links">
-            <a href="#top">Odam</a>
+            <a href="#top">Atelier</a>
             <a href="#projeler">Terminaller</a>
             <a href="#hakkimda">Hakkımda & Kontrol</a>
         </div>
     </nav>
 
-    <!-- Kaydırma Akışı -->
-    <main class="scroll-track" id="top">
+    <main class="scroll-container" id="top">
         
-        <!-- 1. Bölüm: Gerçek Odasının 3D Modeli (Kasan, Monitöründe HERONJI Ekranı ve Raflar) -->
-        <section class="section-hero">
-            <div class="hero-meta">HERONJI SETUP // REAL ROOM 3D</div>
-            <p class="hero-sub">
-                Gerçek odanın komuta merkezi. Monitöründe Heronji paneli ve sağda RGB sıvı soğutmalı kasanız ile tam birebir 3D modelleme.
+        <section class="section-room">
+            <div class="room-meta">ATELIER ARCHITECTURE // PRO-SETUP</div>
+            <p class="room-desc">
+                Dünyaca ödüllü 3D portfolyo sitelerinin mimari standartlarında, doğrudan odanıza ve sisteminize özel olarak tasarlanmış interaktif çalışma alanı.
             </p>
-            <div class="scroll-cue">
-                <span>Komuta Terminallerine Geçmek İçin Kaydır</span>
+            <div class="scroll-indicator">
+                <span>Komuta İstasyonuna Geçmek İçin Kaydırın</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M6 9l6 6 6-6"/>
                 </svg>
             </div>
         </section>
 
-        <!-- 2. Bölüm: 5'li Geniş Oval Masa & Ayrık Monitörler -->
-        <section class="section-projects" id="projeler">
-            <div class="projects-hud" id="projects-hud">
+        <section class="section-command" id="projeler">
+            <div class="command-hud" id="command-hud">
                 <h2>KOMUTA TERMİNALLERİ</h2>
-                <p>İncelemek veya başlatmak istediğiniz monitörün üzerine tıklayın</p>
-                <div class="project-pills">
-                    <button class="pill-btn active-project" onclick="triggerProjectByIndex(0)">
+                <p>İncelemek veya sisteme giriş yapmak istediğiniz monitör terminaline tıklayın</p>
+                <div class="terminal-pills">
+                    <button class="terminal-pill live" onclick="triggerTerminalByIndex(0)">
                         <span class="dot"></span> LAB-DEDEKTİFİ
                     </button>
-                    <button class="pill-btn locked-project" onclick="triggerProjectByIndex(1)">
+                    <button class="terminal-pill wip" onclick="triggerTerminalByIndex(1)">
                         <span class="dot"></span> YANLIŞ DEĞİL
                     </button>
-                    <button class="pill-btn locked-project" onclick="triggerProjectByIndex(2)">
+                    <button class="terminal-pill wip" onclick="triggerTerminalByIndex(2)">
                         <span class="dot"></span> J.A.R.V.I.S.
                     </button>
-                    <button class="pill-btn locked-project" onclick="triggerProjectByIndex(3)">
+                    <button class="terminal-pill wip" onclick="triggerTerminalByIndex(3)">
                         <span class="dot"></span> FRIDAY
                     </button>
-                    <button class="pill-btn locked-project" onclick="triggerProjectByIndex(4)">
+                    <button class="terminal-pill wip" onclick="triggerTerminalByIndex(4)">
                         <span class="dot"></span> ULTRON
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- 3. Bölüm: Yatay Geniş Ekran (Ultrawide) İkili Panel -->
-        <section class="section-about" id="hakkimda">
-            <div class="widescreen-console">
+        <section class="section-portfolio" id="hakkimda">
+            <div class="portfolio-grid">
                 
-                <!-- SOL PANEL: HAKKIMDA -->
-                <div class="console-panel">
+                <div class="p-panel">
                     <div>
-                        <div class="panel-topbar">
-                            <div class="window-dots"><span></span><span></span><span></span></div>
-                            <span>DISPLAY 01 // DEVELOPER PROFILE</span>
+                        <div class="panel-header-bar">
+                            <div class="mac-dots"><span></span><span></span><span></span></div>
+                            <span>DISPLAY 01 // ARCHITECT PROFILE</span>
                         </div>
-                        <div class="about-header">
-                            <h2 class="about-title">Heronji.fx</h2>
-                            <span class="about-role">Full-Stack & AI Systems Architect</span>
+                        <div class="about-title-wrap">
+                            <h2 class="about-main-name">Heronji.fx</h2>
+                            <span class="about-role-tag">Full-Stack & AI Systems Architect</span>
                         </div>
-                        <div class="about-body-horizontal">
-                            <p class="about-text">
-                                Merhaba, ben <strong>Heronji.fx</strong>. Heronji Topluluğu çatısı altında hem masaüstü hem de mobil cihazlarla tam uyumlu, yüksek performanslı web uygulamaları, 3D interaktif arayüzler ve yapay zeka tabanlı asistan sistemleri geliştiriyorum. Bu platform, tüm aktif ve geliştirme aşamasındaki projelerimi tek bir merkezden yönettiğim ana depodur.
+                        <div class="about-content-split">
+                            <p class="about-bio-text">
+                                Merhaba, ben <strong>Heronji.fx</strong>. Heronji Topluluğu çatısı altında; üst düzey 3D WebGL arayüzleri, yüksek performanslı yapay zeka entegrasyonları ve modern web ekosistemleri inşa ediyorum. Bu platform, tüm projelerimin ve komuta terminallerimin merkezi yönetim üssüdür.
                             </p>
-                            <div class="skills-box">
-                                <div class="skills-box-title">Teknoloji Yığını</div>
-                                <div class="skills-list">
-                                    <span class="skill-tag">Three.js / WebGL</span>
-                                    <span class="skill-tag">AI & LLM Agents</span>
-                                    <span class="skill-tag">Responsive UI</span>
-                                    <span class="skill-tag">TypeScript / JS</span>
-                                    <span class="skill-tag">System Design</span>
+                            <div class="tech-stack-card">
+                                <div class="tech-title">Sistem Yığını</div>
+                                <div class="tech-tags">
+                                    <span class="t-tag">Three.js / WebGL</span>
+                                    <span class="t-tag">AI Agents</span>
+                                    <span class="t-tag">PBR Materials</span>
+                                    <span class="t-tag">System Architecture</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="about-footer">
+                    <div class="panel-footer-actions">
                         <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                            <a href="https://lab-dedektifi.vercel.app/" target="_blank" class="btn-solid">Lab-Dedektifi'ni Başlat</a>
-                            <a href="#top" class="btn-outline">Odaya Dön</a>
+                            <a href="https://lab-dedektifi.vercel.app/" target="_blank" class="btn-action-primary">Lab-Dedektifi'ni Başlat</a>
+                            <a href="#top" class="btn-action-secondary">Atelier'e Dön</a>
                         </div>
-                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: #6b7280;">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #64748b;">
                             HERONJI TOPLULUĞU © 2026
                         </span>
                     </div>
                 </div>
 
-                <!-- SAĞ PANEL: KONTROL MERKEZİ -->
-                <div class="console-panel">
+                <div class="p-panel">
                     <div>
-                        <div class="panel-topbar">
-                            <div class="window-dots"><span></span><span></span><span></span></div>
-                            <span>DISPLAY 02 // SYSTEM CONTROL</span>
+                        <div class="panel-header-bar">
+                            <div class="mac-dots"><span></span><span></span><span></span></div>
+                            <span>DISPLAY 02 // NODE CONTROLLER</span>
                         </div>
-                        <h3 style="font-family: 'Syne', sans-serif; font-size: 1.25rem; margin-bottom: 6px;">Proje Kontrol Merkezi</h3>
-                        <p style="color: #9ca3af; font-size: 0.82rem; margin-bottom: 18px;">
-                            Modülleri doğrudan buradan tetikleyebilir veya durumlarını denetleyebilirsiniz.
+                        <h3 style="font-family: 'Syne', sans-serif; font-size: 1.2rem; margin-bottom: 6px;">Sistem Kontrol Merkezi</h3>
+                        <p style="color: var(--text-muted); font-size: 0.82rem; margin-bottom: 18px;">
+                            Ağdaki tüm modülleri buradan denetleyebilir ve aktif edebilirsiniz.
                         </p>
 
-                        <div class="control-grid">
-                            <div class="control-row" onclick="window.open('https://lab-dedektifi.vercel.app/', '_blank')">
+                        <div class="control-list">
+                            <div class="control-item-row" onclick="window.open('https://lab-dedektifi.vercel.app/', '_blank')">
                                 <div class="control-info">
-                                    <span class="control-idx">01</span>
-                                    <span class="control-name">LAB-DEDEKTİFİ</span>
+                                    <span class="control-num">01</span>
+                                    <span class="control-lbl">LAB-DEDEKTİFİ</span>
                                 </div>
-                                <span class="status-pill-live">AKTİF // GİRİŞ</span>
+                                <span class="status-badge-active">AKTİF // GİRİŞ</span>
                             </div>
 
-                            <div class="control-row" onclick="scrollToMonitorAndTrigger(1)">
+                            <div class="control-item-row" onclick="triggerTerminalByIndex(1)">
                                 <div class="control-info">
-                                    <span class="control-idx">02</span>
-                                    <span class="control-name">YANLIŞ DEĞİL</span>
+                                    <span class="control-num">02</span>
+                                    <span class="control-lbl">YANLIŞ DEĞİL</span>
                                 </div>
-                                <span class="status-pill-wip">HAZIR DEĞİL</span>
+                                <span class="status-badge-wip">HAZIR DEĞİL</span>
                             </div>
 
-                            <div class="control-row" onclick="scrollToMonitorAndTrigger(2)">
+                            <div class="control-item-row" onclick="triggerTerminalByIndex(2)">
                                 <div class="control-info">
-                                    <span class="control-idx">03</span>
-                                    <span class="control-name">J.A.R.V.I.S.</span>
+                                    <span class="control-num">03</span>
+                                    <span class="control-lbl">J.A.R.V.I.S.</span>
                                 </div>
-                                <span class="status-pill-wip">HAZIR DEĞİL</span>
+                                <span class="status-badge-wip">HAZIR DEĞİL</span>
                             </div>
 
-                            <div class="control-row" onclick="scrollToMonitorAndTrigger(3)">
+                            <div class="control-item-row" onclick="triggerTerminalByIndex(3)">
                                 <div class="control-info">
-                                    <span class="control-idx">04</span>
-                                    <span class="control-name">FRIDAY</span>
+                                    <span class="control-num">04</span>
+                                    <span class="control-lbl">FRIDAY</span>
                                 </div>
-                                <span class="status-pill-wip">HAZIR DEĞİL</span>
+                                <span class="status-badge-wip">HAZIR DEĞİL</span>
                             </div>
 
-                            <div class="control-row" onclick="scrollToMonitorAndTrigger(4)">
+                            <div class="control-item-row" onclick="triggerTerminalByIndex(4)">
                                 <div class="control-info">
-                                    <span class="control-idx">05</span>
-                                    <span class="control-name">ULTRON</span>
+                                    <span class="control-num">05</span>
+                                    <span class="control-lbl">ULTRON</span>
                                 </div>
-                                <span class="status-pill-wip">HAZIR DEĞİL</span>
+                                <span class="status-badge-wip">HAZIR DEĞİL</span>
                             </div>
                         </div>
                     </div>
 
-                    <div style="margin-top: 20px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #6b7280;">
-                        <span>NODES: 5 REGISTERED</span>
-                        <span>STATUS: OPERATIONAL</span>
+                    <div style="margin-top: 20px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #64748b;">
+                        <span>NODES: 5 SECURED</span>
+                        <span>STATUS: 100% ONLINE</span>
                     </div>
                 </div>
 
@@ -737,17 +711,13 @@ html_code = """<!DOCTYPE html>
 
     </main>
 
-    <!-- Three.js Kütüphanesi -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <script>
-        // =========================================================================
-        // 1. FOTOGERÇEKÇİ STÜDYO SAHNESİ (GERÇEK ODA SETUP'I)
-        // =========================================================================
-        const container = document.getElementById('webgl-container');
+        const container = document.getElementById('webgl-canvas');
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x07080a);
-        scene.fog = new THREE.FogExp2(0x07080a, 0.026);
+        scene.background = new THREE.Color(0x050608);
+        scene.fog = new THREE.FogExp2(0x050608, 0.024);
 
         const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
         camera.position.set(0, 1.85, 5.8);
@@ -758,61 +728,49 @@ html_code = """<!DOCTYPE html>
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.05;
+        renderer.toneMappingExposure = 1.1;
         renderer.outputEncoding = THREE.sRGBEncoding;
         container.appendChild(renderer.domElement);
 
-        // Mimari Ortam Haritası
-        function createArchitecturalEnvMap() {
+        function createMasterEnvMap() {
             const pmremGenerator = new THREE.PMREMGenerator(renderer);
             pmremGenerator.compileEquirectangularShader();
 
             const envScene = new THREE.Scene();
-            envScene.background = new THREE.Color(0x090a0d);
+            envScene.background = new THREE.Color(0x080a0f);
 
-            const topSoftbox = new THREE.Mesh(
+            const topLight = new THREE.Mesh(
                 new THREE.PlaneGeometry(16, 6),
-                new THREE.MeshBasicMaterial({ color: 0xfff5e8, side: THREE.DoubleSide })
+                new THREE.MeshBasicMaterial({ color: 0xfff7ed, side: THREE.DoubleSide })
             );
-            topSoftbox.position.set(0, 9, 2);
-            topSoftbox.rotation.x = Math.PI / 2;
-            envScene.add(topSoftbox);
+            topLight.position.set(0, 10, 2);
+            topLight.rotation.x = Math.PI / 2;
+            envScene.add(topLight);
 
-            const warmPanel = new THREE.Mesh(
-                new THREE.PlaneGeometry(10, 7),
-                new THREE.MeshBasicMaterial({ color: 0xffd8b1, side: THREE.DoubleSide })
+            const sideLight1 = new THREE.Mesh(
+                new THREE.PlaneGeometry(10, 8),
+                new THREE.MeshBasicMaterial({ color: 0x38bdf8, side: THREE.DoubleSide })
             );
-            warmPanel.position.set(-11, 3, 3);
-            warmPanel.rotation.y = Math.PI / 2;
-            envScene.add(warmPanel);
-
-            const coolPanel = new THREE.Mesh(
-                new THREE.PlaneGeometry(10, 7),
-                new THREE.MeshBasicMaterial({ color: 0xcbd5e1, side: THREE.DoubleSide })
-            );
-            coolPanel.position.set(11, 3, 3);
-            coolPanel.rotation.y = -Math.PI / 2;
-            envScene.add(coolPanel);
+            sideLight1.position.set(-12, 3, 3);
+            sideLight1.rotation.y = Math.PI / 2;
+            envScene.add(sideLight1);
 
             const envRT = pmremGenerator.fromScene(envScene, 0.04);
             pmremGenerator.dispose();
             return envRT.texture;
         }
-        scene.environment = createArchitecturalEnvMap();
+        scene.environment = createMasterEnvMap();
 
-        // =========================================================================
-        // 2. PROSEDÜREL DOKULAR (AHŞAP, DUVAR ÇITALARI, KASA İÇİ RGB & HERONJI EKRANI)
-        // =========================================================================
-        function createWalnutWoodTextures() {
+        function createWalnutTexture() {
             const canvas = document.createElement('canvas');
             canvas.width = 1024;
             canvas.height = 1024;
             const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#241811';
+            ctx.fillStyle = '#221610';
             ctx.fillRect(0, 0, 1024, 1024);
-            for (let i = 0; i < 420; i++) {
+            for (let i = 0; i < 400; i++) {
                 const y = Math.random() * 1024;
-                ctx.strokeStyle = Math.random() > 0.5 ? 'rgba(16, 10, 6, 0.35)' : 'rgba(54, 36, 24, 0.25)';
+                ctx.strokeStyle = Math.random() > 0.5 ? 'rgba(12, 8, 5, 0.4)' : 'rgba(48, 30, 20, 0.3)';
                 ctx.lineWidth = 1 + Math.random() * 4;
                 ctx.beginPath();
                 ctx.moveTo(0, y);
@@ -828,65 +786,61 @@ html_code = """<!DOCTYPE html>
             return tex;
         }
 
-        // Monitörde Gösterilecek Gerçek Heronji Paneli Dokusu (Yüklediğiniz görselin dijital arayüz karşılığı)
-        function createHeroRoomScreenTexture() {
+        function createHeronjiStudioScreenTexture() {
             const canvas = document.createElement('canvas');
             canvas.width = 1920;
             canvas.height = 1080;
             const ctx = canvas.getContext('2d');
 
-            // Arka plan (YouTube / Panel arayüz koyu tema)
             const bg = ctx.createLinearGradient(0, 0, 1920, 1080);
-            bg.addColorStop(0, '#12141c');
-            bg.addColorStop(1, '#080a0e');
+            bg.addColorStop(0, '#0e1117');
+            bg.addColorStop(1, '#07080b');
             ctx.fillStyle = bg;
             ctx.fillRect(0, 0, 1920, 1080);
 
-            // Üst Kanal Banner alanı
-            ctx.fillStyle = '#1e222d';
-            ctx.fillRect(240, 80, 1440, 240);
+            ctx.fillStyle = '#161922';
+            ctx.fillRect(200, 70, 1520, 260);
 
-            // Profil Dairesi (Avatar)
-            ctx.fillStyle = '#3b82f6';
+            ctx.fillStyle = '#38bdf8';
             ctx.beginPath();
-            ctx.arc(380, 200, 65, 0, Math.PI * 2);
+            ctx.arc(340, 200, 64, 0, Math.PI * 2);
             ctx.fill();
 
-            // HERONJI Yazısı ve Kanal Bilgileri
-            ctx.font = '800 48px Inter, sans-serif';
+            ctx.font = '800 52px "Plus Jakarta Sans", sans-serif';
             ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'left';
-            ctx.fillText('HERONJI', 470, 185);
+            ctx.fillText('HERONJI', 440, 180);
 
-            ctx.font = '500 22px Inter, sans-serif';
-            ctx.fillStyle = '#9ca3af';
-            ctx.fillText('@heronji.fx · 1.43 B abone · 3 video', 470, 230);
+            ctx.font = '500 22px "Plus Jakarta Sans", sans-serif';
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('@heronji.fx · 1.43 B abone · Komuta Merkezi & Sistem Mimarisi', 440, 230);
 
-            // Sekmeler (Ana Sayfa, Videolar, Oynatma Listeleri vb.)
             const tabs = ['Ana Sayfa', 'Videolar', 'Oynatma Listeleri', 'Topluluk', 'Kanallar', 'Hakkında'];
-            ctx.font = '600 20px Inter, sans-serif';
+            ctx.font = '600 20px "Plus Jakarta Sans", sans-serif';
             tabs.forEach((tab, i) => {
-                ctx.fillStyle = i === 0 ? '#3b82f6' : '#9ca3af';
-                ctx.fillText(tab, 240 + i * 160, 370);
+                ctx.fillStyle = i === 0 ? '#38bdf8' : '#64748b';
+                ctx.fillText(tab, 200 + i * 170, 380);
             });
-            ctx.fillStyle = '#3b82f6';
-            ctx.fillRect(240, 390, 100, 4);
+            ctx.fillStyle = '#38bdf8';
+            ctx.fillRect(200, 400, 110, 4);
 
-            // Öne Çıkan Video Kartları (Görseldeki gibi)
             for (let i = 0; i < 3; i++) {
-                const x = 240 + i * 490;
-                ctx.fillStyle = '#1a1d26';
+                const x = 200 + i * 520;
+                ctx.fillStyle = '#121620';
                 ctx.beginPath();
-                ctx.roundRect(x, 440, 450, 260, 16);
+                ctx.roundRect(x, 460, 480, 270, 18);
                 ctx.fill();
 
-                // Video küçük resim placeholder
-                ctx.fillStyle = i === 0 ? '#d97706' : (i === 1 ? '#7c3aed' : '#059669');
-                ctx.fillRect(x + 20, y = 460, 410, 150);
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.fillStyle = i === 0 ? '#0284c7' : (i === 1 ? '#7c3aed' : '#059669');
+                ctx.fillRect(x + 24, 484, 432, 150);
 
                 ctx.fillStyle = '#ffffff';
-                ctx.font = '700 18px Inter, sans-serif';
-                ctx.fillText(`HERONJI Proje Modülü 0${i+1}`, x + 20, 645);
+                ctx.font = '700 20px "Plus Jakarta Sans", sans-serif';
+                ctx.fillText(`HERONJI Modül v0.${i+1}`, x + 24, 670);
             }
 
             const tex = new THREE.CanvasTexture(canvas);
@@ -894,163 +848,142 @@ html_code = """<!DOCTYPE html>
             return tex;
         }
 
-        const walnutTexture = createWalnutWoodTextures();
-        const heroScreenTex = createHeroRoomScreenTexture();
+        const walnutTexture = createWalnutTexture();
+        const mainScreenTex = createHeronjiStudioScreenTexture();
 
-        // =========================================================================
-        // 3. IŞIKLANDIRma
-        // =========================================================================
-        const hemiLight = new THREE.HemisphereLight(0xf8fafc, 0x181412, 0.85);
+        const hemiLight = new THREE.HemisphereLight(0xf8fafc, 0x12141c, 0.9);
         scene.add(hemiLight);
 
-        const mainKeyLight = new THREE.SpotLight(0xfff7ed, 2.5);
-        mainKeyLight.position.set(1.5, 7.5, 4.5);
-        mainKeyLight.angle = Math.PI / 3.6;
-        mainKeyLight.penumbra = 0.85;
-        mainKeyLight.castShadow = true;
-        mainKeyLight.shadow.mapSize.width = 2048;
-        mainKeyLight.shadow.mapSize.height = 2048;
-        scene.add(mainKeyLight);
+        const spotLight = new THREE.SpotLight(0xfff7ed, 2.6);
+        spotLight.position.set(2, 8, 5);
+        spotLight.angle = Math.PI / 3.5;
+        spotLight.penumbra = 0.8;
+        spotLight.castShadow = true;
+        spotLight.shadow.mapSize.width = 2048;
+        spotLight.shadow.mapSize.height = 2048;
+        scene.add(spotLight);
 
-        // =========================================================================
-        // 4. GERÇEK ODA SETUP MODELİ (MASA, DUVAR ÇITALARI, MONİTÖR, KLAVYE, MOUSE VE RGB KASA)
-        // =========================================================================
-        const studioGroup = new THREE.Group();
-        scene.add(studioGroup);
+        const roomGroup = new THREE.Group();
+        scene.add(roomGroup);
 
-        // Zemin
         const floor = new THREE.Mesh(
-            new THREE.PlaneGeometry(45, 45),
-            new THREE.MeshStandardMaterial({ color: 0x090a0d, roughness: 0.65, metalness: 0.15 })
+            new THREE.PlaneGeometry(50, 50),
+            new THREE.MeshStandardMaterial({ color: 0x07080a, roughness: 0.6, metalness: 0.1 })
         );
         floor.rotation.x = -Math.PI / 2;
         floor.position.y = -1.35;
         floor.receiveShadow = true;
-        studioGroup.add(floor);
+        roomGroup.add(floor);
 
-        // Duvar Ahşap Çıtaları (Görselinizdeki odanın ikonik duvarı)
         const wallGroup = new THREE.Group();
         wallGroup.position.set(0, 1.5, -2.6);
-        studioGroup.add(wallGroup);
+        roomGroup.add(wallGroup);
 
-        const feltBack = new THREE.Mesh(
-            new THREE.PlaneGeometry(26, 11),
-            new THREE.MeshStandardMaterial({ color: 0x0b0c0f, roughness: 0.95 })
+        const wallBack = new THREE.Mesh(
+            new THREE.PlaneGeometry(28, 12),
+            new THREE.MeshStandardMaterial({ color: 0x090a0e, roughness: 0.9 })
         );
-        feltBack.receiveShadow = true;
-        wallGroup.add(feltBack);
+        wallBack.receiveShadow = true;
+        wallGroup.add(wallBack);
 
-        const woodSlatMat = new THREE.MeshStandardMaterial({
+        const slatMat = new THREE.MeshStandardMaterial({
             map: walnutTexture,
-            roughness: 0.55,
+            roughness: 0.5,
             metalness: 0.05
         });
-        for (let x = -7.5; x <= 7.5; x += 0.42) {
-            const slat = new THREE.Mesh(new THREE.BoxGeometry(0.18, 8.5, 0.07), woodSlatMat);
+        for (let x = -8; x <= 8; x += 0.42) {
+            const slat = new THREE.Mesh(new THREE.BoxGeometry(0.18, 9, 0.07), slatMat);
             slat.position.set(x, 0, 0.04);
             slat.receiveShadow = true;
             wallGroup.add(slat);
         }
 
-        // Çalışma Masası
         const deskGroup = new THREE.Group();
-        studioGroup.add(deskGroup);
+        roomGroup.add(deskGroup);
 
-        const walnutDeskMat = new THREE.MeshStandardMaterial({
+        const deskTopMat = new THREE.MeshStandardMaterial({
             map: walnutTexture,
-            roughness: 0.42,
+            roughness: 0.4,
             metalness: 0.08
         });
-        const deskTop = new THREE.Mesh(new THREE.BoxGeometry(4.8, 0.11, 1.95), walnutDeskMat);
+        const deskTop = new THREE.Mesh(new THREE.BoxGeometry(4.8, 0.11, 1.95), deskTopMat);
         deskTop.position.set(0, -0.055, 0);
-        deskTop.castShield = true;
+        deskTop.castShadow = true;
         deskTop.receiveShadow = true;
         deskGroup.add(deskTop);
 
-        // Masa Ayakları
-        const steelLegMat = new THREE.MeshStandardMaterial({ color: 0x121317, metalness: 0.85, roughness: 0.35 });
-        const dLegL = new THREE.Mesh(new THREE.BoxGeometry(0.09, 1.35, 1.55), steelLegMat);
-        dLegL.position.set(-2.1, -0.72, 0);
-        const dLegR = new THREE.Mesh(new THREE.BoxGeometry(0.09, 1.35, 1.55), steelLegMat);
-        dLegR.position.set(2.1, -0.72, 0);
-        deskGroup.add(dLegL, dLegR);
+        const steelMat = new THREE.MeshStandardMaterial({ color: 0x0f1115, metalness: 0.9, roughness: 0.3 });
+        const legL = new THREE.Mesh(new THREE.BoxGeometry(0.09, 1.35, 1.55), steelMat);
+        legL.position.set(-2.1, -0.72, 0);
+        const legR = new THREE.Mesh(new THREE.BoxGeometry(0.09, 1.35, 1.55), steelMat);
+        legR.position.set(2.1, -0.72, 0);
+        deskGroup.add(legL, legR);
 
-        // Siyah Deskmat
         const deskMat = new THREE.Mesh(
             new THREE.BoxGeometry(2.6, 0.01, 0.82),
-            new THREE.MeshStandardMaterial({ color: 0x141519, roughness: 0.88 })
+            new THREE.MeshStandardMaterial({ color: 0x111318, roughness: 0.85 })
         );
         deskMat.position.set(-0.1, 0.005, 0.28);
         deskMat.receiveShadow = true;
         deskGroup.add(deskMat);
 
-        // Monitör (Üzerinde HERONJI kanal arayüzü açık!)
         const monitorGroup = new THREE.Group();
         monitorGroup.position.set(-0.35, 0.72, -0.32);
         deskGroup.add(monitorGroup);
 
         const screenGeo = new THREE.PlaneGeometry(2.4, 1.38);
         const screenMat = new THREE.MeshStandardMaterial({
-            map: heroScreenTex,
-            emissiveMap: heroScreenTex,
+            map: mainScreenTex,
+            emissiveMap: mainScreenTex,
             emissive: new THREE.Color(0xffffff),
             emissiveIntensity: 0.92,
-            roughness: 0.12
+            roughness: 0.1
         });
         const screenMesh = new THREE.Mesh(screenGeo, screenMat);
         monitorGroup.add(screenMesh);
 
-        // Monitör Ayağı
-        const standMat = new THREE.MeshStandardMaterial({ color: 0x22242a, metalness: 0.9, roughness: 0.2 });
-        const mStand = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.65, 0.08), standMat);
-        mStand.position.set(0, -0.92, -0.05);
-        monitorGroup.add(mStand);
+        const monitorStand = new THREE.Mesh(
+            new THREE.BoxGeometry(0.12, 0.65, 0.08),
+            new THREE.MeshStandardMaterial({ color: 0x1a1c23, metalness: 0.9, roughness: 0.2 })
+        );
+        monitorStand.position.set(0, -0.92, -0.05);
+        monitorGroup.add(monitorStand);
 
-        // Mekanik Klavye (Görselinizdeki beyaz/gri tuşlu klavye)
-        const kbGroup = new THREE.Group();
-        kbGroup.position.set(-0.35, 0.022, 0.38);
-        deskGroup.add(kbGroup);
-        const kbBase = new THREE.Mesh(
+        const keyboard = new THREE.Mesh(
             new THREE.BoxGeometry(0.95, 0.026, 0.34),
-            new THREE.MeshStandardMaterial({ color: 0xf4f4f6, roughness: 0.3 })
+            new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.3 })
         );
-        kbGroup.add(kbBase);
+        keyboard.position.set(-0.35, 0.022, 0.38);
+        deskGroup.add(keyboard);
 
-        // Delikli / RGB Oyuncu Mouse (Görselinizdeki beyaz fare)
-        const mouseBody = new THREE.Mesh(
+        const mouse = new THREE.Mesh(
             new THREE.BoxGeometry(0.14, 0.04, 0.24),
-            new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.25 })
+            new THREE.MeshStandardMaterial({ color: 0xf1f5f9, roughness: 0.25 })
         );
-        mouseBody.position.set(0.55, 0.028, 0.38);
-        deskGroup.add(mouseBody);
+        mouse.position.set(0.55, 0.028, 0.38);
+        deskGroup.add(mouse);
 
-        // SAĞDAKİ BİLGİSAYAR KASASI (RGB Sıvı Soğutmalı, Beyaz Kasa - Görselinizle Birebir)
-        const caseGroup = new THREE.Group();
-        caseGroup.position.set(1.22, 0.65, -0.15);
-        deskGroup.add(caseGroup);
+        const pcCaseGroup = new THREE.Group();
+        pcCaseGroup.position.set(1.22, 0.65, -0.15);
+        deskGroup.add(pcCaseGroup);
 
-        // Kasa Dış Çerçevesi (Beyaz)
-        const caseFrame = new THREE.Mesh(
+        const caseBody = new THREE.Mesh(
             new THREE.BoxGeometry(0.75, 0.95, 0.85),
-            new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.2, metalness: 0.8 })
+            new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.2, metalness: 0.75 })
         );
-        caseFrame.castShadow = true;
-        caseGroup.add(caseFrame);
+        caseBody.castShadow = true;
+        pcCaseGroup.add(caseBody);
 
-        // Kasa İçi Cam Bölme & RGB Parıltı
-        const caseInterior = new THREE.Mesh(
+        const caseGlass = new THREE.Mesh(
             new THREE.BoxGeometry(0.68, 0.88, 0.78),
-            new THREE.MeshStandardMaterial({ color: 0x0a0c10, roughness: 0.1, emissive: 0x3b82f6, emissiveIntensity: 0.4 })
+            new THREE.MeshStandardMaterial({ color: 0x090b0e, roughness: 0.1, emissive: 0x38bdf8, emissiveIntensity: 0.45 })
         );
-        caseInterior.position.x = -0.02;
-        caseGroup.add(caseInterior);
+        caseGlass.position.x = -0.02;
+        pcCaseGroup.add(caseGlass);
 
-        // =========================================================================
-        // 5. BÖLÜM 2: GENİŞ OVAL KOMUTA MASASI VE 5 MONİTÖR
-        // =========================================================================
-        const ovalStationGroup = new THREE.Group();
-        ovalStationGroup.position.set(0, -11.5, 0);
-        scene.add(ovalStationGroup);
+        const commandStationGroup = new THREE.Group();
+        commandStationGroup.position.set(0, -11.5, 0);
+        scene.add(commandStationGroup);
 
         const ovalDesk = new THREE.Mesh(
             new THREE.CylinderGeometry(7.4, 7.8, 0.14, 32),
@@ -1059,46 +992,45 @@ html_code = """<!DOCTYPE html>
         ovalDesk.scale.set(1, 1, 0.45);
         ovalDesk.position.set(0, 0, 0.5);
         ovalDesk.receiveShadow = true;
-        ovalStationGroup.add(ovalDesk);
+        commandStationGroup.add(ovalDesk);
 
-        const pillarMat = new THREE.MeshStandardMaterial({ color: 0x111216, metalness: 0.88, roughness: 0.28 });
-        const pL = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.42, 1.45, 24), pillarMat);
-        pL.position.set(-3.6, -0.78, 0.5);
-        const pR = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.42, 1.45, 24), pillarMat);
-        pR.position.set(3.6, -0.78, 0.5);
-        ovalStationGroup.add(pL, pR);
+        const colMat = new THREE.MeshStandardMaterial({ color: 0x0f1115, metalness: 0.88, roughness: 0.28 });
+        const colL = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.42, 1.45, 24), colMat);
+        colL.position.set(-3.6, -0.78, 0.5);
+        const colR = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.42, 1.45, 24), colMat);
+        colR.position.set(3.6, -0.78, 0.5);
+        commandStationGroup.add(colL, colR);
 
-        // Proje Monitörleri Dokusu Oluşturucu
-        function createProjectOLEDTexture(title, subtitle, statusColor, isLockedMessage = false) {
+        function createTerminalTexture(title, subtitle, statusColor, isLocked = false) {
             const canvas = document.createElement('canvas');
             canvas.width = 1440;
             canvas.height = 810;
             const ctx = canvas.getContext('2d');
 
             const grad = ctx.createLinearGradient(0, 0, 1440, 810);
-            grad.addColorStop(0, '#0a0b0e');
-            grad.addColorStop(1, '#12141b');
+            grad.addColorStop(0, '#0a0c10');
+            grad.addColorStop(1, '#12151e');
             ctx.fillStyle = grad;
             ctx.fillRect(0, 0, 1440, 810);
 
-            if (isLockedMessage) {
+            if (isLocked) {
                 ctx.fillStyle = 'rgba(239, 68, 68, 0.08)';
                 ctx.beginPath();
                 ctx.roundRect(120, 210, 1200, 390, 24);
                 ctx.fill();
 
-                ctx.strokeStyle = 'rgba(239, 68, 68, 0.65)';
+                ctx.strokeStyle = 'rgba(239, 68, 68, 0.6)';
                 ctx.lineWidth = 3;
                 ctx.stroke();
 
-                ctx.font = '800 76px Inter, sans-serif';
+                ctx.font = '800 76px "Plus Jakarta Sans", sans-serif';
                 ctx.fillStyle = '#f87171';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText('HENÜZ HAZIR DEĞİL', 720, 375);
 
-                ctx.font = '500 28px Inter, sans-serif';
-                ctx.fillStyle = '#9ca3af';
+                ctx.font = '500 28px "Plus Jakarta Sans", sans-serif';
+                ctx.fillStyle = '#94a3b8';
                 ctx.fillText('Bu modül şu anda geliştirme aşamasındadır.', 720, 465);
             } else {
                 ctx.fillStyle = statusColor;
@@ -1106,32 +1038,32 @@ html_code = """<!DOCTYPE html>
                 ctx.arc(84, 76, 7, 0, Math.PI * 2);
                 ctx.fill();
 
-                ctx.font = '600 22px Inter, sans-serif';
-                ctx.fillStyle = '#9ca3af';
+                ctx.font = '600 22px "Plus Jakarta Sans", sans-serif';
+                ctx.fillStyle = '#94a3b8';
                 ctx.textAlign = 'left';
                 ctx.fillText(subtitle, 106, 83);
 
-                ctx.font = '800 84px Inter, sans-serif';
+                ctx.font = '800 84px "Plus Jakarta Sans", sans-serif';
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(title, 720, 390);
 
-                ctx.fillStyle = title === 'LAB-DEDEKTİFİ' ? '#f4f4f6' : 'rgba(255, 255, 255, 0.08)';
+                ctx.fillStyle = title === 'LAB-DEDEKTİFİ' ? '#f8fafc' : 'rgba(255, 255, 255, 0.08)';
                 ctx.beginPath();
                 ctx.roundRect(540, 515, 360, 64, 14);
                 ctx.fill();
 
-                ctx.font = '700 22px Inter, sans-serif';
-                ctx.fillStyle = title === 'LAB-DEDEKTİFİ' ? '#07080a' : '#e5e7eb';
+                ctx.font = '700 22px "Plus Jakarta Sans", sans-serif';
+                ctx.fillStyle = title === 'LAB-DEDEKTİFİ' ? '#050608' : '#e2e8f0';
                 ctx.fillText(title === 'LAB-DEDEKTİFİ' ? 'SİSTEMİ AÇ →' : 'DURUMU KONTROL ET', 720, 549);
             }
             return new THREE.CanvasTexture(canvas);
         }
 
-        function buildOvalMonitor(width, height, screenTexture) {
+        function buildTerminalMonitor(width, height, screenTex) {
             const root = new THREE.Group();
-            const frameMat = new THREE.MeshStandardMaterial({ color: 0x18191e, metalness: 0.88, roughness: 0.24 });
+            const frameMat = new THREE.MeshStandardMaterial({ color: 0x161820, metalness: 0.9, roughness: 0.22 });
             
             const stand = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.5, 0.05), frameMat);
             stand.position.set(0, 0.25, -0.1);
@@ -1144,7 +1076,7 @@ html_code = """<!DOCTYPE html>
 
             const screen = new THREE.Mesh(
                 new THREE.PlaneGeometry(width - 0.04, height - 0.04),
-                new THREE.MeshStandardMaterial({ map: screenTexture, emissive: 0xffffff, emissiveMap: screenTexture, emissiveIntensity: 0.9 })
+                new THREE.MeshStandardMaterial({ map: screenTex, emissive: 0xffffff, emissiveMap: screenTex, emissiveIntensity: 0.9 })
             );
             screen.position.set(0, height/2 + 0.5, 0.01 + 0.015);
             root.add(screen);
@@ -1152,50 +1084,47 @@ html_code = """<!DOCTYPE html>
             return { root, screenMesh: screen };
         }
 
-        const projectConfigs = [
-            { name: 'LAB-DEDEKTİFİ', sub: 'MODÜL 01 // AKTİF YAYIN', statusColor: '#10b981', url: 'https://lab-dedektifi.vercel.app/', ready: true },
-            { name: 'YANLIŞ DEĞİL', sub: 'MODÜL 02 // W.I.P', statusColor: '#d97706', url: null, ready: false },
-            { name: 'J.A.R.V.I.S.', sub: 'MODÜL 03 // W.I.P', statusColor: '#d97706', url: null, ready: false },
-            { name: 'FRIDAY', sub: 'MODÜL 04 // W.I.P', statusColor: '#d97706', url: null, ready: false },
-            { name: 'ULTRON', sub: 'MODÜL 05 // W.I.P', statusColor: '#d97706', url: null, ready: false }
+        const terminalConfigs = [
+            { name: 'LAB-DEDEKTİFİ', sub: 'MODÜL 01 // AKTİF YAYIN', statusColor: '#34d399', url: 'https://lab-dedektifi.vercel.app/', ready: true },
+            { name: 'YANLIŞ DEĞİL', sub: 'MODÜL 02 // W.I.P', statusColor: '#fbbf24', url: null, ready: false },
+            { name: 'J.A.R.V.I.S.', sub: 'MODÜL 03 // W.I.P', statusColor: '#fbbf24', url: null, ready: false },
+            { name: 'FRIDAY', sub: 'MODÜL 04 // W.I.P', statusColor: '#fbbf24', url: null, ready: false },
+            { name: 'ULTRON', sub: 'MODÜL 05 // W.I.P', statusColor: '#fbbf24', url: null, ready: false }
         ];
 
-        const screenMeshes = [];
+        const terminalMeshes = [];
 
-        projectConfigs.forEach((proj, idx) => {
+        terminalConfigs.forEach((cfg, idx) => {
             const offsetIdx = idx - 2;
             const angle = offsetIdx * 0.42;
             const xPos = Math.sin(angle) * 5.85;
             const zPos = 0.5 - Math.cos(angle) * 1.75;
 
-            const defaultTex = createProjectOLEDTexture(proj.name, proj.sub, proj.statusColor, false);
-            const mon = buildOvalMonitor(1.85, 1.06, defaultTex);
+            const defTex = createTerminalTexture(cfg.name, cfg.sub, cfg.statusColor, false);
+            const terminal = buildTerminalMonitor(1.85, 1.06, defTex);
 
-            mon.root.position.set(xPos, 0, zPos);
-            mon.root.rotation.y = -angle * 0.78;
+            terminal.root.position.set(xPos, 0, zPos);
+            terminal.root.rotation.y = -angle * 0.78;
 
-            mon.screenMesh.userData = {
+            terminal.screenMesh.userData = {
                 index: idx,
-                config: proj,
-                defaultTexture: defaultTex,
+                config: cfg,
+                defaultTexture: defTex,
                 lockedTexture: null,
                 timeoutId: null,
-                monitorRoot: mon.root
+                terminalRoot: terminal.root
             };
 
-            ovalStationGroup.add(mon.root);
-            screenMeshes.push(mon.screenMesh);
+            commandStationGroup.add(terminal.root);
+            terminalMeshes.push(terminal.screenMesh);
         });
 
-        // =========================================================================
-        // 6. SCROLL & RAYCAST
-        // =========================================================================
         let scrollProgress = 0;
         let targetScrollProgress = 0;
-        let isZoomingToProject = false;
-        let zoomTargetPos = new THREE.Vector3();
+        let isZooming = false;
+        let zoomTarget = new THREE.Vector3();
 
-        const projectsHud = document.getElementById('projects-hud');
+        const commandHud = document.getElementById('command-hud');
 
         window.addEventListener('scroll', () => {
             const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
@@ -1204,48 +1133,42 @@ html_code = """<!DOCTYPE html>
 
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2(-999, -999);
-        const tooltip = document.getElementById('cursor-tooltip');
-        let hoveredScreen = null;
+        const cursorCue = document.getElementById('cursor-cue');
+        let hoveredMesh = null;
 
         window.addEventListener('mousemove', (e) => {
             mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
             mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-            tooltip.style.left = e.clientX + 'px';
-            tooltip.style.top = e.clientY + 'px';
+            cursorCue.style.left = e.clientX + 'px';
+            cursorCue.style.top = e.clientY + 'px';
         });
 
         window.addEventListener('click', () => {
-            if (hoveredScreen && !isZoomingToProject) {
-                activateScreen(hoveredScreen);
+            if (hoveredMesh && !isZooming) {
+                activateTerminal(hoveredMesh);
             }
         });
 
-        window.triggerProjectByIndex = function(idx) {
-            const targetMesh = screenMeshes[idx];
-            if (targetMesh) activateScreen(targetMesh);
+        window.triggerTerminalByIndex = function(idx) {
+            const target = terminalMeshes[idx];
+            if (target) activateTerminal(target);
         };
 
-        window.scrollToMonitorAndTrigger = function(idx) {
-            const targetScrollY = (document.documentElement.scrollHeight - window.innerHeight) * 0.45;
-            window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
-            setTimeout(() => { triggerProjectByIndex(idx); }, 650);
-        };
-
-        function activateScreen(mesh) {
+        function activateTerminal(mesh) {
             const data = mesh.userData;
-            const proj = data.config;
+            const cfg = data.config;
 
-            if (proj.ready && proj.url) {
-                isZoomingToProject = true;
+            if (cfg.ready && cfg.url) {
+                isZooming = true;
                 const worldPos = new THREE.Vector3();
                 mesh.getWorldPosition(worldPos);
-                zoomTargetPos.copy(worldPos);
+                zoomTarget.copy(worldPos);
 
-                setTimeout(() => { document.getElementById('portal-overlay').classList.add('active'); }, 420);
-                setTimeout(() => { window.location.href = proj.url; }, 1100);
+                setTimeout(() => { document.getElementById('portal-curtain').classList.add('active'); }, 400);
+                setTimeout(() => { window.location.href = cfg.url; }, 1100);
             } else {
                 if (!data.lockedTexture) {
-                    data.lockedTexture = createProjectOLEDTexture(proj.name, '', '#ef4444', true);
+                    data.lockedTexture = createTerminalTexture(cfg.name, '', '#f87171', true);
                 }
                 mesh.material.map = data.lockedTexture;
                 mesh.material.emissiveMap = data.lockedTexture;
@@ -1265,51 +1188,51 @@ html_code = """<!DOCTYPE html>
             requestAnimationFrame(animate);
             scrollProgress += (targetScrollProgress - scrollProgress) * 0.075;
 
-            if (!isZoomingToProject) {
-                const transitionFactor = Math.min(Math.max(scrollProgress / 0.42, 0), 1);
-                const smoothT = transitionFactor * transitionFactor * (3 - 2 * transitionFactor);
+            if (!isZooming) {
+                const tFactor = Math.min(Math.max(scrollProgress / 0.42, 0), 1);
+                const smoothT = tFactor * tFactor * (3 - 2 * tFactor);
 
-                studioGroup.position.y = smoothT * 11.5;
-                ovalStationGroup.position.y = -11.5 + (smoothT * 11.5);
+                roomGroup.position.y = smoothT * 11.5;
+                commandStationGroup.position.y = -11.5 + (smoothT * 11.5);
 
-                if (scrollProgress > 0.24 && scrollProgress < 0.77) {
-                    projectsHud.classList.add('visible');
+                if (scrollProgress > 0.25 && scrollProgress < 0.78) {
+                    commandHud.classList.add('active');
                 } else {
-                    projectsHud.classList.remove('visible');
+                    commandHud.classList.remove('active');
                 }
 
                 const targetZ = window.innerWidth < 1050 ? 14.5 : (5.6 + smoothT * 4.4);
-                camera.position.x += ((mouse.x * 0.45) - camera.position.x) * 0.06;
-                camera.position.y += (((1.7 - smoothT * 0.15) + (mouse.y * 0.22)) - camera.position.y) * 0.06;
+                camera.position.x += ((mouse.x * 0.4) - camera.position.x) * 0.06;
+                camera.position.y += (((1.7 - smoothT * 0.15) + (mouse.y * 0.2)) - camera.position.y) * 0.06;
                 camera.position.z += (targetZ - camera.position.z) * 0.06;
                 camera.lookAt(0, 0.72, -0.35);
             } else {
-                camera.position.x += (zoomTargetPos.x - camera.position.x) * 0.08;
-                camera.position.y += (zoomTargetPos.y - camera.position.y) * 0.08;
-                camera.position.z += ((zoomTargetPos.z + 0.4) - camera.position.z) * 0.08;
-                camera.lookAt(zoomTargetPos);
+                camera.position.x += (zoomTarget.x - camera.position.x) * 0.08;
+                camera.position.y += (zoomTarget.y - camera.position.y) * 0.08;
+                camera.position.z += ((zoomTarget.z + 0.4) - camera.position.z) * 0.08;
+                camera.lookAt(zoomTarget);
             }
 
             raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(screenMeshes);
+            const intersects = raycaster.intersectObjects(terminalMeshes);
 
-            if (intersects.length > 0 && !isZoomingToProject) {
+            if (intersects.length > 0 && !isZooming) {
                 const hit = intersects[0].object;
-                hoveredScreen = hit;
+                hoveredMesh = hit;
                 document.body.style.cursor = 'pointer';
-                tooltip.style.opacity = '1';
-                tooltip.textContent = hit.userData.config.ready ? 'LAB-DEDEKTİFİNE GİR' : 'DURUMU KONTROL ET';
+                cursorCue.style.opacity = '1';
+                cursorCue.textContent = hit.userData.config.ready ? 'LAB-DEDEKTİFİNE GİR' : 'DURUMU KONTROL ET';
 
-                screenMeshes.forEach(m => {
-                    const targetScale = (m === hit) ? 1.045 : 1.0;
-                    m.userData.monitorRoot.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.12);
+                terminalMeshes.forEach(m => {
+                    const sc = (m === hit) ? 1.045 : 1.0;
+                    m.userData.terminalRoot.scale.lerp(new THREE.Vector3(sc, sc, sc), 0.12);
                 });
             } else {
-                hoveredScreen = null;
+                hoveredMesh = null;
                 document.body.style.cursor = 'default';
-                tooltip.style.opacity = '0';
-                screenMeshes.forEach(m => {
-                    m.userData.monitorRoot.scale.lerp(new THREE.Vector3(1, 1, 1), 0.12);
+                cursorCue.style.opacity = '0';
+                terminalMeshes.forEach(m => {
+                    m.userData.terminalRoot.scale.lerp(new THREE.Vector3(1, 1, 1), 0.12);
                 });
             }
 
@@ -1326,12 +1249,3 @@ html_code = """<!DOCTYPE html>
     </script>
 </body>
 </html>
-"""
-
-with open("index.html", "w", encoding="utf-8") as f:
-    f.write(html_code)
-
-with zipfile.ZipFile("heronji-toplulugu-github-pages-v4.zip", "w", zipfile.ZIP_DEFLATED) as zf:
-    zf.write("index.html")
-
-print("v4 dosyaları oluşturuldu.")
